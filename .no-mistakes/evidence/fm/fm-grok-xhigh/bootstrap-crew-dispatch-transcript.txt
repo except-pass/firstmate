@@ -1,0 +1,31 @@
+Real bin/fm-bootstrap.sh, isolated FM_HOME, real PATH (grok grok 1.0.41 (4220f3b224a6) [stable]), FM_BOOTSTRAP_VERBOSE_FACTS=1; only crew-dispatch lines shown.
+== BASE 9296f9b (before change) ==
+### [grok-4.7 xhigh] crew-dispatch.json: {"rules":[{"when":"deep current work","use":{"harness":"grok","model":"grok-4.7","effort":"xhigh"}}]}
+CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+
+== TARGET ab5548a (this change) ==
+### [grok-4.7 xhigh] crew-dispatch.json: {"rules":[{"when":"deep current work","use":{"harness":"grok","model":"grok-4.7","effort":"xhigh"}}]}
+BOOTSTRAP_INFO: crew dispatch active config/crew-dispatch.json
+BOOTSTRAP_INFO: crew dispatch rule: deep current work -> grok/grok-4.7/xhigh
+
+### [grok-4.6 xhigh] crew-dispatch.json: {"rules":[{"when":"deep current work","use":{"harness":"grok","model":"grok-4.6","effort":"xhigh"}}]}
+BOOTSTRAP_INFO: crew dispatch active config/crew-dispatch.json
+BOOTSTRAP_INFO: crew dispatch rule: deep current work -> grok/grok-4.6/xhigh
+
+### [grok-4.7-build-fast xhigh default] crew-dispatch.json: {"default":{"harness":"grok","model":"grok-4.7-build-fast","effort":"xhigh"}}
+BOOTSTRAP_INFO: crew dispatch active config/crew-dispatch.json
+BOOTSTRAP_INFO: crew dispatch default: grok/grok-4.7-build-fast/xhigh
+
+== TARGET adversarial ==
+### [grok-4.5 xhigh] crew-dispatch.json: {"rules":[{"when":"deep current work","use":{"harness":"grok","model":"grok-4.5","effort":"xhigh"}}]}
+CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+
+### [grok-4.7 max] crew-dispatch.json: {"rules":[{"when":"deep current work","use":{"harness":"grok","model":"grok-4.7","effort":"max"}}]}
+CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:max
+
+### [model-less xhigh] crew-dispatch.json: {"rules":[{"when":"deep current work","use":{"harness":"grok","effort":"xhigh"}}]}
+CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+
+### [agy xhigh unchanged] crew-dispatch.json: {"rules":[{"when":"x","use":{"harness":"agy","effort":"xhigh"}}]}
+CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: agy:xhigh
+

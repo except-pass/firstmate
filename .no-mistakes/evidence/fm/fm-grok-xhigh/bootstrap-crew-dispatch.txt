@@ -1,0 +1,38 @@
+===== base (9296f9b) =====
+grok-4.7 xhigh (user repro)            {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7","effort":"xhigh"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+grok-4.6 xhigh                         {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.6","effort":"xhigh"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+grok-4.7-build-fast xhigh              {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7-build-fast","effort":"xhigh"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+grok-4.7 xhigh as default              {"default":{"harness":"grok","model":"grok-4.7","effort":"xhigh"}}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+grok-4.7 high (regression)             {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7","effort":"high"}}]}
+    -> (no CREW_DISPATCH complaint: accepted)
+ADV grok-4.5 xhigh                     {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.5","effort":"xhigh"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+ADV grok no-model xhigh                {"rules":[{"when":"deep work","use":{"harness":"grok","effort":"xhigh"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+ADV grok-4.7 max                       {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7","effort":"max"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:max
+ADV agy xhigh (unchanged)              {"rules":[{"when":"deep work","use":{"harness":"agy","effort":"xhigh"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: agy:xhigh
+===== target (08e7c1e) =====
+grok-4.7 xhigh (user repro)            {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7","effort":"xhigh"}}]}
+    -> (no CREW_DISPATCH complaint: accepted)
+grok-4.6 xhigh                         {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.6","effort":"xhigh"}}]}
+    -> (no CREW_DISPATCH complaint: accepted)
+grok-4.7-build-fast xhigh              {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7-build-fast","effort":"xhigh"}}]}
+    -> (no CREW_DISPATCH complaint: accepted)
+grok-4.7 xhigh as default              {"default":{"harness":"grok","model":"grok-4.7","effort":"xhigh"}}
+    -> (no CREW_DISPATCH complaint: accepted)
+grok-4.7 high (regression)             {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7","effort":"high"}}]}
+    -> (no CREW_DISPATCH complaint: accepted)
+ADV grok-4.5 xhigh                     {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.5","effort":"xhigh"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+ADV grok no-model xhigh                {"rules":[{"when":"deep work","use":{"harness":"grok","effort":"xhigh"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+ADV grok-4.7 max                       {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7","effort":"max"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:max
+ADV agy xhigh (unchanged)              {"rules":[{"when":"deep work","use":{"harness":"agy","effort":"xhigh"}}]}
+    -> CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: agy:xhigh

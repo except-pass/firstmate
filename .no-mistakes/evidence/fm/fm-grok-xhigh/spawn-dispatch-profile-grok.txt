@@ -1,0 +1,7 @@
+ok - unresolvable relative spawn overrides fail with named diagnostics
+ok - grok receives --model and --reasoning-effort profile flags
+ok - grok omits unsupported max reasoning effort
+ok - grok omits unsupported xhigh reasoning effort
+ok - grok receives xhigh reasoning effort on a supporting model
+ok - grok omits xhigh on grok-4.5
+spawn-exit=

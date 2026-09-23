@@ -1,0 +1,23 @@
+Real grok CLI: grok 1.0.41 (4220f3b224a6) [stable]
+### $ grok -p "Reply with exactly: OK" --model grok-4.7 --reasoning-effort xhigh
+OK
+exit=0
+
+### $ grok -p "Reply with exactly: OK" --model grok-4.6 --reasoning-effort xhigh
+OK
+exit=0
+
+### $ grok -p "Reply with exactly: OK" --model grok-4.7-build-fast --reasoning-effort xhigh
+OK
+exit=0
+
+### $ grok -p "Reply with exactly: OK" --model grok-4.5 --reasoning-effort xhigh
+--effort/--reasoning-effort: unknown effort level 'xhigh'; use one of: high, medium, low
+Error: --effort/--reasoning-effort: unknown effort level 'xhigh'; use one of: high, medium, low
+exit=1
+
+### $ grok -p "Reply with exactly: OK" --model grok-4.7 --reasoning-effort max
+--effort/--reasoning-effort: unknown effort level 'max'; use one of: xhigh, high, medium, low
+Error: --effort/--reasoning-effort: unknown effort level 'max'; use one of: xhigh, high, medium, low
+exit=1
+

@@ -1,0 +1,9 @@
+$ grok -p 'Reply with exactly: OK' --model grok-4.7 --reasoning-effort xhigh
+OK
+[exit 0]
+
+$ grok -p 'Reply with exactly: OK' --model grok-4.5 --reasoning-effort xhigh
+--effort/--reasoning-effort: unknown effort level 'xhigh'; use one of: high, medium, low
+Error: --effort/--reasoning-effort: unknown effort level 'xhigh'; use one of: high, medium, low
+[exit 1]
+
