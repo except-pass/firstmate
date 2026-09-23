@@ -730,8 +730,12 @@ assert_contains "$err" 'not JSON' "non-JSON rules is named"
 for good_model in grok-4.6 grok-4.7 grok-4.7-build-fast; do
   printf '{"rules":[{"when":"x","use":{"harness":"grok","model":"%s","effort":"xhigh"}}]}\n' "$good_model" > "$RULES"
   TYPESAFE_API_KEY=$KEY run code out err "$BRIEF"
+  expect_code 0 "$code" "grok xhigh on $good_model exits 0"
   assert_not_contains "$err" 'malformed rules file' "grok xhigh is accepted on $good_model"
 done
+# The accepted profiles above legitimately reach the network; clear that log
+# so the rejected configurations below are proven not to.
+reset_log
 for bad in \
   '{"rules":[{"when":"x","use":{"harness":"claude"},"approval":"firstmate"}]}|approval must be "captain" when present' \
   '{"rules":[{"when":"x","use":{"harness":"claude"},"select":"mystery"}]}|unknown select: mystery' \
