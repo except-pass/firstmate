@@ -9,6 +9,12 @@
 # state/secondmate-summary-cache; those observational cache writes are its only
 # fleet-state mutation.
 #
+# --task <id> --json prints the one task object already built for that metadata
+# record and nothing else. It does not refresh state/secondmate-summary-cache,
+# does not acquire the session lock, and does not create metadata. A missing id
+# prints schema fm-fleet-snapshot-task.v1 with found false and reason not-found,
+# then exits 1. Omitting --task leaves the fleet document unchanged.
+#
 # Top-level fields:
 #   schema: stable schema id.
 #   generated: UTC observation time for this fresh command execution.
@@ -233,11 +239,18 @@ esac
 usage() {
   cat <<'EOF'
 usage: fm-fleet-snapshot.sh --json
+       fm-fleet-snapshot.sh --task <id> --json
        fm-fleet-snapshot.sh --secondmate-home-summary
 
 Print a structured snapshot of the firstmate fleet.
 JSON is the stable machine-readable output contract. The default snapshot
 refreshes only its parent-side remote-summary cache as an observational side effect.
+
+--task <id> --json prints the one task object for state/<id>.meta and does not
+refresh that cache or acquire the session lock. A missing id prints schema
+fm-fleet-snapshot-task.v1 with found set to false and reason not-found, then
+exits 1, and does not create metadata. Omitting --task leaves the fleet
+document unchanged.
 
 --contribution-input emits the canonical local backlog/tasks ownership pair only,
 without worker observations or cross-home collection.
@@ -287,13 +300,52 @@ EOF
 }
 
 OUTPUT_MODE=json
-case "${1:---json}" in
-  --json) ;;
-  --secondmate-home-summary) OUTPUT_MODE=secondmate-home-summary ;;
-  --contribution-input) OUTPUT_MODE=contribution-input ;;
-  -h|--help) usage; exit 0 ;;
-  *) usage >&2; exit 2 ;;
-esac
+TASK_ID=
+has_task_flag=0
+for snapshot_arg in "$@"; do
+  if [ "$snapshot_arg" = "--task" ]; then
+    has_task_flag=1
+    break
+  fi
+done
+if [ "$has_task_flag" -eq 0 ]; then
+  # No --task: keep the historical first-argument switch, including its
+  # acceptance of a bare invocation as --json.
+  case "${1:---json}" in
+    --json) ;;
+    --secondmate-home-summary) OUTPUT_MODE=secondmate-home-summary ;;
+    --contribution-input) OUTPUT_MODE=contribution-input ;;
+    -h|--help) usage; exit 0 ;;
+    *) usage >&2; exit 2 ;;
+  esac
+else
+  seen_json=0
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --json) seen_json=1; shift ;;
+      --task)
+        if [ "$#" -lt 2 ] || [ -n "$TASK_ID" ]; then
+          usage >&2
+          exit 2
+        fi
+        TASK_ID=$2
+        shift 2
+        ;;
+      -h|--help) usage; exit 0 ;;
+      *) usage >&2; exit 2 ;;
+    esac
+  done
+  if [ "$seen_json" -ne 1 ] || [ -z "$TASK_ID" ]; then
+    usage >&2
+    exit 2
+  fi
+  case "$TASK_ID" in
+    ''|.*|-*|*[!A-Za-z0-9._-]*)
+      echo "fm-fleet-snapshot: invalid task id" >&2
+      exit 2
+      ;;
+  esac
+fi
 
 command -v jq >/dev/null 2>&1 || { echo "fm-fleet-snapshot: jq not found" >&2; exit 1; }
 
@@ -1968,6 +2020,51 @@ scout_report_lines() {
     done \
     | jq -s 'sort_by(.id)'
 }
+
+# One metadata record, the object task_json_lines already builds. This returns
+# before backlog, contribution, and second-mate collection, so it cannot refresh
+# state/secondmate-summary-cache or acquire the session lock.
+emit_one_task() {  # <id>
+  local id=$1 meta captured tasks_json rc
+  meta="$STATE/$id.meta"
+  if [ ! -f "$meta" ] || [ -L "$meta" ]; then
+    jq -n --arg id "$id" \
+      '{schema:"fm-fleet-snapshot-task.v1",found:false,id:$id,reason:"not-found"}'
+    return 1
+  fi
+  snapshot_task_cleanup
+  SNAPSHOT_TASK_DIR=$(umask 077; mktemp -d "${TMPDIR:-/tmp}/fm-fleet-tasks.XXXXXX") || {
+    echo "fm-fleet-snapshot: task snapshot failed" >&2
+    return 1
+  }
+  captured="$SNAPSHOT_TASK_DIR/$id.meta"
+  if ! cp -- "$meta" "$captured"; then
+    snapshot_task_cleanup
+    echo "fm-fleet-snapshot: task snapshot failed" >&2
+    return 1
+  fi
+  SNAPSHOT_TASK_METAS[0]=$captured
+  SNAPSHOT_TASK_META_COUNT=1
+  if ! prefetch_task_observations "$captured" "$id"; then
+    snapshot_task_cleanup
+    echo "fm-fleet-snapshot: task observation failed" >&2
+    return 1
+  fi
+  rc=0
+  tasks_json=$(task_json_lines) || rc=1
+  snapshot_task_cleanup
+  if [ "$rc" -ne 0 ]; then
+    echo "fm-fleet-snapshot: task snapshot failed" >&2
+    return 1
+  fi
+  printf '%s\n' "$tasks_json" | jq -e --arg id "$id" \
+    'select(type == "array" and length == 1 and .[0].id == $id) | .[0]'
+}
+
+if [ -n "$TASK_ID" ]; then
+  emit_one_task "$TASK_ID"
+  exit $?
+fi
 
 BACKLOG_JSON=$(backlog_json) || { echo "fm-fleet-snapshot: backlog read failed" >&2; exit 1; }
 contribution_tasks_json() {
