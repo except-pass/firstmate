@@ -282,11 +282,9 @@ fm_session_lock_same_session() {  # <state> [<ancestry-pids>]
 # Print the value of environment variable $2 in process $1, or return 1.
 # Linux reads /proc/<pid>/environ. Elsewhere the environment is the suffix
 # `ps -Eww` appends after the argument string, so a value that appears only
-# inside the command line is ignored. Values that contain spaces are split;
-# a home path with a space then simply fails to match rather than matching
-# a different home.
+# inside the command line is ignored.
 fm_process_env_value() {  # <pid> <name>
-  local pid=$1 name=$2 args both rest token line noglob=0
+  local pid=$1 name=$2 args both rest value line
   case "$pid" in ''|*[!0-9]*) return 1 ;; esac
   case "$name" in ''|*[!A-Za-z0-9_]*) return 1 ;; esac
   if [ -r "/proc/$pid/environ" ]; then
@@ -303,17 +301,12 @@ fm_process_env_value() {  # <pid> <name>
     "$args"*) rest=${both#"$args"} ;;
     *) return 1 ;;
   esac
-  case $- in *f*) noglob=1 ;; esac
-  set -f
-  # shellcheck disable=SC2086 # environment suffix is space-separated assignments
-  set -- $rest
-  [ "$noglob" -eq 1 ] || set +f
-  for token in "$@"; do
-    case "$token" in
-      "$name"=*) printf '%s\n' "${token#"$name"=}"; return 0 ;;
-    esac
-  done
-  return 1
+  [[ $rest =~ (^|[[:space:]])${name}=(.*) ]] || return 1
+  value=${BASH_REMATCH[2]}
+  if [[ $value =~ [[:space:]][A-Za-z_][A-Za-z0-9_]*= ]]; then
+    value=${value%%"${BASH_REMATCH[0]}"*}
+  fi
+  printf '%s\n' "$value"
 }
 
 # True when the shared Codex app-server daemon is an ancestor of this process.

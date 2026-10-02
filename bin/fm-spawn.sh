@@ -5257,27 +5257,6 @@ fi
 # kill switch below it is an export statement, so it survives a compound raw
 # launch and the launch-env-allowlist `env -i` wrapper.
 LAUNCH="export FM_TASK_INBOX=$(shell_quote "$STATE_REAL/$ID.inbox"); $LAUNCH"
-# Codex tool shells run under the shared app-server daemon, not under this
-# pane, so the exports above never reach them. The per-session -c policy is
-# what gives each launch its own home. A raw launch is the caller's command
-# and is left unchanged. A generated launch that lost the placeholder stops
-# here: launching without it would silently reuse whichever home started the
-# daemon.
-if [ "$HARNESS" = codex ] && [ "$RAW_LAUNCH" -eq 0 ]; then
-  if [ "$KIND" = secondmate ]; then
-    codex_shell_env=$(codex_shell_environment_flags "$PROJ_ABS" secondmate "$FM_HOME" "$SPAWN_TRACE_EFFECTIVE" "$supervision_model")
-  else
-    codex_shell_env=$(codex_shell_environment_flags "$FM_HOME" worker)
-  fi
-  LAUNCH=${LAUNCH//__CODEXSHELLENV__/$codex_shell_env}
-  case "$LAUNCH" in
-    *'shell_environment_policy.set.FM_HOME='*) ;;
-    *)
-      echo "error: codex launch is missing its per-session shell environment; tool shells would inherit the shared app-server daemon's home" >&2
-      exit 1
-      ;;
-  esac
-fi
 LAUNCH="export COMPACT_ADVISER_DISABLE=1; $LAUNCH"
 # When the live-harness gate has exported DISABLE_AUTOUPDATER into this spawn's
 # own environment, carry it into the launch command text so Claude Code's
@@ -5345,6 +5324,7 @@ if [ -n "$SPAWN_TRACEPARENT" ]; then
   if spawn_send_text_line "$T" "export TRACEPARENT=$SPAWN_TRACEPARENT"; then
     if ! spawn_record_traceparent; then
       LAUNCH="unset TRACEPARENT; $LAUNCH"
+      SPAWN_TRACEPARENT=
     fi
   else
     TRACE_SEND_STATUS=$?
@@ -5353,7 +5333,29 @@ if [ -n "$SPAWN_TRACEPARENT" ]; then
       exit 1
     fi
     LAUNCH="unset TRACEPARENT; $LAUNCH"
+    SPAWN_TRACEPARENT=
   fi
+fi
+# Codex tool shells run under the shared app-server daemon, not under this
+# pane, so the exports above never reach them. The per-session -c policy is
+# what gives each launch its own home. A raw launch is the caller's command
+# and is left unchanged. A generated launch that lost the placeholder stops
+# here: launching without it would silently reuse whichever home started the
+# daemon.
+if [ "$HARNESS" = codex ] && [ "$RAW_LAUNCH" -eq 0 ]; then
+  if [ "$KIND" = secondmate ]; then
+    codex_shell_env=$(codex_shell_environment_flags "$PROJ_ABS" secondmate "$FM_HOME" "$SPAWN_TRACE_EFFECTIVE" "$supervision_model")
+  else
+    codex_shell_env=$(codex_shell_environment_flags "$FM_HOME" worker)
+  fi
+  LAUNCH=${LAUNCH//__CODEXSHELLENV__/$codex_shell_env}
+  case "$LAUNCH" in
+    *'shell_environment_policy.set.FM_HOME='*) ;;
+    *)
+      echo "error: codex launch is missing its per-session shell environment; tool shells would inherit the shared app-server daemon's home" >&2
+      exit 1
+      ;;
+  esac
 fi
 if [ "$LAUNCH_ENV_ENABLED" = 1 ]; then
   LAUNCH_ENV_PREFIX='/usr/bin/env -i'

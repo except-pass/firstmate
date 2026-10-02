@@ -66,6 +66,8 @@ if [ "${FM_TEST_CODEX_SHAPE:-daemon}" = host ]; then
   exit 0
 fi
 client900_args='/opt/codex --model gpt-5 -- the daemon is codex app-server --managed-daemon'
+client900_home=/homes/a
+[ "${FM_TEST_SPACED_HOME:-0}" = 1 ] && client900_home='/homes/my home'
 case "$pid:$field" in
   799:comm=) printf '%s\n' codex ;;
   799:args=) printf '%s\n' '/opt/codex app-server daemon pid-update-loop' ;;
@@ -75,7 +77,7 @@ case "$pid:$field" in
   800:ppid=) printf '%s\n' 799 ;;
   900:comm=) printf '%s\n' codex ;;
   900:args=) printf '%s\n' "$client900_args" ;;
-  900:command=) printf '%s\n' "$client900_args FM_HOME=/homes/a" ;;
+  900:command=) printf '%s\n' "$client900_args FM_HOME=$client900_home FM_TASK_ID=" ;;
   900:ppid=) printf '%s\n' 1 ;;
   901:comm=) printf '%s\n' codex ;;
   901:args=) printf '%s\n' '/opt/codex --model gpt-5' ;;
@@ -146,6 +148,12 @@ test_codex_shared_daemon_is_not_the_session_anchor() {
   got=$(FM_HOME=/homes/a lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
     || fail "no anchor pid was resolved under the shared daemon"
   [ "$got" = 900 ] || fail "the daemon-spawned hook anchored '$got', expected the client 900"
+  got=$(FM_HOME='/homes/my home' FM_TEST_SPACED_HOME=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
+    || fail "a Codex client with a spaced home produced no anchor"
+  [ "$got" = 900 ] || fail "the spaced home anchored '$got', expected the client 900"
+  if FM_HOME=/homes/my FM_TEST_SPACED_HOME=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid'; then
+    fail "a prefix of the spaced home was accepted as the client's home"
+  fi
 
   printf '900\n' > "$state/.lock"
   FM_HOME=/homes/a owned "$fakebin" "$state" \
