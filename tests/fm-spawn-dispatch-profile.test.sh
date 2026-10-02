@@ -580,7 +580,7 @@ test_codex_omits_max_effort_for_unsupported_model() {
 # a crewmate runs hook-free, a secondmate keeps the project hooks that carry its
 # own primary-session turn-end guard and session-start digest.
 test_codex_crewmate_launch_disables_the_hook_layer() {
-  local rec id out status launch
+  local rec id out status launch home_real state_real
   id=profile-codex-hooks-z4c
   rec=$(make_spawn_case profile-codex-hooks codex "$id")
   read_case_record "$rec"
@@ -599,11 +599,23 @@ test_codex_crewmate_launch_disables_the_hook_layer() {
   # launch rather than any hook.
   assert_contains "$launch" "notify=" \
     "codex crewmate launch lost the turn-end notify program"
+  home_real=$(CDPATH='' cd -- "$HOME_DIR" && pwd -P) \
+    || fail "cannot resolve the crewmate home"
+  state_real=$(CDPATH='' cd -- "$HOME_DIR/state" && pwd -P) \
+    || fail "cannot resolve the crewmate state dir"
+  assert_contains "$launch" "-c 'shell_environment_policy.set.FM_HOME=\"$home_real\"'" \
+    "codex crewmate launch did not pin its own home into tool shells"
+  assert_contains "$launch" "-c 'shell_environment_policy.set.FM_TASK_INBOX=\"$state_real/$id.inbox\"'" \
+    "codex crewmate launch did not pin its steering inbox into tool shells"
+  assert_contains "$launch" "-c 'shell_environment_policy.set.FM_ROOT_OVERRIDE=\"\"'" \
+    "codex crewmate launch did not pass an empty root override into tool shells"
+  assert_contains "$launch" "-c 'shell_environment_policy.set.FM_STATE_OVERRIDE=\"$state_real\"'" \
+    "codex crewmate launch did not pass its state override into tool shells"
   pass "a codex crewmate launches with no hook layer and keeps its turn-end signal"
 }
 
 test_codex_secondmate_launch_keeps_the_hook_layer() {
-  local rec id sm out status launch
+  local rec id sm out status launch sm_real home_real
   id=profile-codex-secondmate-hooks-z4d
   rec=$(make_spawn_case profile-codex-secondmate-hooks codex "$id")
   read_case_record "$rec"
@@ -616,6 +628,16 @@ test_codex_secondmate_launch_keeps_the_hook_layer() {
   launch=$(cat "$LAUNCH_LOG")
   assert_not_contains "$launch" "--disable hooks" \
     "codex secondmate launch disabled the project hooks its own primary supervision depends on"
+  sm_real=$(CDPATH='' cd -- "$sm" && pwd -P) || fail "cannot resolve the secondmate home"
+  home_real=$(CDPATH='' cd -- "$HOME_DIR" && pwd -P) || fail "cannot resolve the primary home"
+  assert_contains "$launch" "-c 'shell_environment_policy.set.FM_HOME=\"$sm_real\"'" \
+    "codex secondmate launch did not pin the secondmate home into tool shells"
+  assert_contains "$launch" "-c 'shell_environment_policy.set.FM_PUBLIC_FOLLOWUP_PRIMARY_HOME=\"$home_real\"'" \
+    "codex secondmate launch did not pin the primary home into tool shells"
+  assert_contains "$launch" "-c 'shell_environment_policy.set.FM_ROOT_OVERRIDE=\"\"'" \
+    "codex secondmate launch did not clear a daemon-inherited root override"
+  assert_contains "$launch" "-c 'shell_environment_policy.set.FM_SUPERVISION_MODEL=\"persistent\"'" \
+    "codex secondmate launch did not pin its supervision model into tool shells"
   pass "a codex secondmate keeps the project hook layer its primary session runs on"
 }
 

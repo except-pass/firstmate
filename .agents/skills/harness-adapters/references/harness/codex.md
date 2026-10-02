@@ -29,6 +29,14 @@ So crewmate and scout launches disable Codex's hook layer outright (`bin/fm-spaw
 A crewmate loses nothing: its turn-end signal is the `-c notify=` program on the same launch, and the Firstmate hooks in a project's `.codex/hooks.json` are primary-session infrastructure that stands down in a child worktree.
 A secondmate is a primary in its own home and keeps its hooks, so an unanswerable modal there is still possible and is the operator's own hook review to settle.
 
+## Shared app-server daemon
+
+Codex sessions on one machine share one managed app-server daemon, launched as `codex app-server --listen unix:// --managed-daemon`, parented by `codex app-server daemon pid-update-loop`.
+A process that daemon spawns inherits the environment of whichever launcher started it, so a shell can see a different Firstmate home than the session that asked for it.
+Verified on 2026-10-01 with codex-cli 0.158.0 and the installed daemon binary 0.160.0: `codex features list -c 'shell_environment_policy.set.FM_HOME="/tmp/fm-probe-home"'` accepts the key, and `-c 'shell_environment_policy.set=123'` is rejected because `shell_environment_policy.set` must be a map.
+`bin/fm-spawn.sh` passes one repeatable `-c 'shell_environment_policy.set.<NAME>="<value>"'` per launch for `FM_HOME` and the other per-launch Firstmate variables those shells read, which overrides the daemon's inherited values for that session.
+`bin/fm-session-lock-lib.sh` does not accept the daemon or its updater as a session anchor, because either pid outlives every session and would hold the home lock forever.
+
 ## Skill popup
 
 A `$<skill>` invocation opens a `$` autocomplete popup.

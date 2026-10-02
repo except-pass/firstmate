@@ -34,6 +34,138 @@ NAMED_CLAUDE="$FAKEBIN/claude"
 
 # --- unit layer: identity behind a deterministic process table ---------------
 
+# The shared Codex app-server daemon outlives every session. A hook it spawns
+# has that daemon as its only harness-shaped ancestor, so the lock used to
+# record the daemon pid and never go stale. The anchor is the client whose
+# own environment names this home, and the daemon is not a live harness.
+write_codex_daemon_ps() {  # <fakebin>
+  cat > "$1/ps" <<'SH'
+#!/usr/bin/env bash
+set -u
+field= pid=
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -o) field=$2; shift 2 ;;
+    -p) pid=$2; shift 2 ;;
+    *) shift ;;
+  esac
+done
+if [ "${FM_TEST_CODEX_SHAPE:-daemon}" = host ]; then
+  case "$pid:$field" in
+    850:comm=) printf '%s\n' codex-code-mode-host ;;
+    850:args=) printf '%s\n' codex-code-mode-host ;;
+    850:ppid=) printf '%s\n' 900 ;;
+    900:comm=) printf '%s\n' codex ;;
+    900:args=) printf '%s\n' '/opt/codex --model gpt-5' ;;
+    900:ppid=) printf '%s\n' 1 ;;
+    :pid=,comm=) printf '%s\n' '900 codex' '850 codex-code-mode-host' ;;
+    *:comm=) printf '%s\n' bash ;;
+    *:args=) printf '%s\n' 'bash hook' ;;
+    *:ppid=) printf '%s\n' 850 ;;
+  esac
+  exit 0
+fi
+client900_args='/opt/codex --model gpt-5 -- the daemon is codex app-server --managed-daemon'
+case "$pid:$field" in
+  799:comm=) printf '%s\n' codex ;;
+  799:args=) printf '%s\n' '/opt/codex app-server daemon pid-update-loop' ;;
+  799:ppid=) printf '%s\n' 1 ;;
+  800:comm=) printf '%s\n' codex ;;
+  800:args=) printf '%s\n' '/opt/codex app-server --listen unix:// --managed-daemon' ;;
+  800:ppid=) printf '%s\n' 799 ;;
+  900:comm=) printf '%s\n' codex ;;
+  900:args=) printf '%s\n' "$client900_args" ;;
+  900:command=) printf '%s\n' "$client900_args FM_HOME=/homes/a" ;;
+  900:ppid=) printf '%s\n' 1 ;;
+  901:comm=) printf '%s\n' codex ;;
+  901:args=) printf '%s\n' '/opt/codex --model gpt-5' ;;
+  901:command=) printf '%s\n' '/opt/codex --model gpt-5 FM_HOME=/homes/b' ;;
+  901:ppid=) printf '%s\n' 1 ;;
+  902:comm=) printf '%s\n' codex ;;
+  902:args=) printf '%s\n' '/opt/codex --model gpt-5' ;;
+  902:command=) printf '%s\n' '/opt/codex --model gpt-5 FM_HOME=/homes/a FM_TASK_ID=worker-1' ;;
+  902:ppid=) printf '%s\n' 1 ;;
+  903:comm=) printf '%s\n' codex ;;
+  903:args=) printf '%s\n' '/opt/codex --model gpt-5' ;;
+  903:command=) printf '%s\n' '/opt/codex --model gpt-5 FM_HOME=/homes/a' ;;
+  903:ppid=) printf '%s\n' 1 ;;
+  1:comm=) printf '%s\n' launchd ;;
+  1:args=) printf '%s\n' launchd ;;
+  1:ppid=) printf '%s\n' 0 ;;
+  :pid=,comm=)
+    printf '%s\n' '799 codex' '800 codex' '901 codex' '902 codex'
+    [ "${FM_TEST_HIDE_PRIMARY:-0}" = 1 ] || printf '%s\n' '900 codex'
+    [ "${FM_TEST_SECOND_CLIENT:-0}" = 1 ] && printf '%s\n' '903 codex'
+    ;;
+  *:comm=) printf '%s\n' bash ;;
+  *:args=) printf '%s\n' 'bash hook' ;;
+  *:command=) printf '%s\n' 'bash hook' ;;
+  *:ppid=) printf '%s\n' 800 ;;
+esac
+SH
+  chmod +x "$1/ps"
+}
+
+test_codex_shared_daemon_is_not_the_session_anchor() {
+  local dir fakebin state got
+  dir="$TMP_ROOT/codex-daemon"
+  fakebin=$(fm_fakebin "$dir")
+  state="$dir/state"
+  mkdir -p "$state"
+  write_codex_daemon_ps "$fakebin"
+
+  if lib_eval "$fakebin" 'fm_harness_pid_alive 800'; then
+    fail "the shared app-server daemon was accepted as a live harness"
+  fi
+  if lib_eval "$fakebin" 'fm_harness_pid_alive 799'; then
+    fail "the app-server updater loop was accepted as a live harness"
+  fi
+  FM_HOME=/homes/a lib_eval "$fakebin" 'fm_harness_pid_alive 900' \
+    || fail "the Codex client was not recognized as a live harness"
+
+  got=$(FM_HOME=/homes/a lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
+    || fail "no anchor pid was resolved under the shared daemon"
+  [ "$got" = 900 ] || fail "the daemon-spawned hook anchored '$got', expected the client 900"
+
+  printf '900\n' > "$state/.lock"
+  FM_HOME=/homes/a owned "$fakebin" "$state" \
+    || fail "the client that owns this home was not recognized from a daemon-spawned hook"
+  if FM_HOME=/homes/a foreign_owner "$fakebin" "$state" >/dev/null; then
+    fail "this home's own client was reported as a foreign owner"
+  fi
+
+  printf '901\n' > "$state/.lock"
+  if FM_HOME=/homes/a owned "$fakebin" "$state"; then
+    fail "another home's client was treated as this session"
+  fi
+  got=$(FM_HOME=/homes/a foreign_owner "$fakebin" "$state") \
+    || fail "another home's live client was not reported as a foreign owner"
+  [ "$got" = 901 ] || fail "the foreign owner pid was '$got', expected 901"
+
+  printf '800\n' > "$state/.lock"
+  if FM_HOME=/homes/a owned "$fakebin" "$state"; then
+    fail "a lock recorded on the shared daemon was treated as this session"
+  fi
+
+  if FM_HOME=/homes/a FM_TEST_SECOND_CLIENT=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid'; then
+    fail "two clients for one home produced an anchor instead of failing"
+  fi
+  if FM_HOME=/homes/none lib_eval "$fakebin" 'fm_session_lock_anchor_pid'; then
+    fail "a home with no client produced an anchor"
+  fi
+  if FM_HOME=/homes/a FM_TEST_HIDE_PRIMARY=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid'; then
+    fail "a worker client carrying FM_TASK_ID was used as the home's session anchor"
+  fi
+
+  FM_TEST_CODEX_SHAPE=host lib_eval "$fakebin" 'fm_harness_pid_alive 850' \
+    && fail "codex-code-mode-host was accepted as a harness"
+  got=$(FM_TEST_CODEX_SHAPE=host lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
+    || fail "no anchor pid was resolved above codex-code-mode-host"
+  [ "$got" = 900 ] || fail "the code-mode host chain anchored '$got', expected the client 900"
+
+  pass "session-lock: the shared Codex daemon is not the session anchor"
+}
+
 # Run one library expression with <fakebin> shadowing ps. kill is stubbed so
 # liveness questions are decided by the process table alone (FM_TEST_KILL_RC=1
 # makes every pid dead). The suite itself may run inside a Claude session whose
@@ -1105,6 +1237,7 @@ test_ordinary_paths_are_never_harness_processes
 test_harness_beyond_a_gap_never_owns_the_lock
 test_competing_version_named_session_is_seen_as_live
 test_same_session_id_owns_a_recycled_background_chain
+test_codex_shared_daemon_is_not_the_session_anchor
 test_anchor_pid_is_the_model_loop_process_only_for_a_trusted_id
 test_e2e_version_named_session_claims_the_home
 test_e2e_daemon_parented_session_claims_the_home
