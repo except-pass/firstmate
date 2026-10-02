@@ -6,11 +6,11 @@
 # bin/fm-lock.sh uses it to acquire and inspect state/.lock and its
 # state/.lock-session sidecar; bin/fm-claude-stop-autoarm.sh uses it to prove a
 # Stop hook fires inside the lock-owning primary session before it may arm or
-# rewake. Two signals decide ownership, either one sufficient: the recorded pid
-# is a member of this process's contiguous harness ancestry, or the trusted
-# Claude session id below matches the id recorded beside a live lock. Neither
-# signal ever fails open: no id, no sidecar, an untrusted id, or a different
-# recorded id leaves the ancestry verdict exactly as it was.
+# rewake. Ownership accepts the recorded pid in this process's contiguous
+# harness ancestry, a trusted Claude session id matching the sidecar beside a
+# live lock, or the uniquely resolved Codex client pid for this home when the
+# current process runs under the shared app-server daemon. Without a unique
+# client match, that Codex fallback never grants ownership.
 # This file is sourced by scripts and has no side effects on source.
 
 # Cursor process identity is NOT expressible as a command-name pattern and is

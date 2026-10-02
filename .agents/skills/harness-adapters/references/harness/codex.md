@@ -14,7 +14,7 @@ Verified on 2026-06-11 with codex-cli 0.139.0 unless a fact gives a newer versio
 | Model flag | `--model <model>`. |
 | Effort flag | `-c 'model_reasoning_effort="<low\|medium\|high\|xhigh\|max>"'`, verified on codex-cli 0.142.1 whose installed schema contains `model_reasoning_effort`, active config uses it, and bundled catalog advertised only the first four values while omitting `max`; current codex-cli 0.153.4 catalog data at `${CODEX_HOME:-~/.codex}/models_cache.json` advertises `max` for `gpt-5.6-luna`, which Firstmate passes for that model. |
 | Model discovery | Open the current interactive session's `/model` picker. |
-| Marker | None; identity comes from ancestry, and `../../../bin/fm-harness.sh` is what keeps a retained foreign `CLAUDECODE` from renaming it. Verified on 2026-09-01 with codex-cli 0.152.0: the pane process is the `node` npm shim and the native `codex` binary runs as its foreground child, so a tool subprocess reaches the native name directly while the shim itself is identified from its script path. |
+| Marker | None; `../../../bin/fm-session-lock-lib.sh` owns session identity, and `../../../bin/fm-harness.sh` keeps a retained foreign `CLAUDECODE` from renaming it. Verified on 2026-09-01 with codex-cli 0.152.0: the pane process is the `node` npm shim and the native `codex` binary runs as its foreground child, so a tool subprocess reaches the native name directly while the shim itself is identified from its script path. |
 
 A directory trust dialog appears on the first run for a repository root: "Do you trust the contents of this directory?"
 Accept it with Enter and verify the instructions begin processing.
@@ -34,11 +34,11 @@ A secondmate is a primary in its own home and keeps its hooks, so an unanswerabl
 Codex sessions on one machine share one managed app-server daemon, launched as `codex app-server --listen unix:// --managed-daemon`, parented by `codex app-server daemon pid-update-loop`.
 A process that daemon spawns inherits the environment of whichever launcher started it, so a shell can see a different Firstmate home than the session that asked for it.
 Verified on 2026-10-01 with codex-cli 0.158.0 and the installed daemon binary 0.160.0: `codex features list -c 'shell_environment_policy.set.FM_HOME="/tmp/fm-probe-home"'` accepts the key, and `-c 'shell_environment_policy.set=123'` is rejected because `shell_environment_policy.set` must be a map.
-`bin/fm-spawn.sh` passes one repeatable `-c 'shell_environment_policy.set.<NAME>="<value>"'` per launch for `FM_HOME` and the other per-launch Firstmate variables those shells read, which overrides the daemon's inherited values for that session.
+Firstmate's generated Codex launches set each session's tool-shell environment through `shell_environment_policy.set`; `bin/fm-spawn.sh` owns the assignments.
 Verified on 2026-10-01 with codex-cli 0.158.0: a real Stop hook does not receive `shell_environment_policy.set`.
 That hook kept the environment of the process that launched the session, including that process's `FM_HOME`, and its working directory was the session directory.
 `.codex/hooks.json` therefore sets `FM_HOME` from `pwd -P` and clears the Firstmate home overrides before it runs the hook script.
-`bin/fm-session-lock-lib.sh` does not accept the daemon or its updater as a session anchor, because either pid outlives every session and would hold the home lock forever.
+`bin/fm-session-lock-lib.sh` owns the session anchor decision and excludes the daemon and its updater, whose pids outlive individual sessions.
 
 ## Skill popup
 

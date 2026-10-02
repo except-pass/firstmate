@@ -6,7 +6,7 @@
 # process for this session, which lives as long as the firstmate session -
 # unlike the transient subshell PID of any one tool call, which is dead moments
 # after it is written, and unlike the shared Codex app-server daemon, which
-# never dies. For a Claude session that proves a
+# can outlive the session. For a Claude session that proves a
 # trusted session id the anchor is CLAUDE_PID, the model-loop process, so a
 # shared transient daemon or a front-end that outlives the session never keeps
 # a dead session's lock alive. Line 1 keeps its whole-line pid format because
