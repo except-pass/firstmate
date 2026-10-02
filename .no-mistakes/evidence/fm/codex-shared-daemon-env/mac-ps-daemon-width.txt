@@ -1,0 +1,5 @@
+pid=93954
+narrow_comm=/Users/wtg/.codex/packages/app-server-daemon/releases/0.160.0-aarch64-apple-darwin/bin/codex
+wide_comm=/Users/wtg/.codex/packages/app-server-daemon/releases/0.160.0-aarch64-apple-darwin/bin/codex
+narrow_daemon_match_exit=0
+wide_daemon_match_exit=0

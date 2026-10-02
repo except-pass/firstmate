@@ -1,0 +1,40 @@
+› For diagnosis, run bash with xtrace while sourcing bin/fm-session-lock-lib.sh and calling fm_session_lock_under_code…
+• Captain, the relevant xtrace lines were:
+
+  + local pid=23739 comm args parent
+  + comm=
+  + return 1
+
+  The lookup of PID 23739 returned no command name, so the function exited before checking whether any process matched
+  the Codex daemon. There was no daemon match decision in this trace.
+
+  Worked for 42s • 12:26 PM
+
+
+› Run read-only commands ps -ww -o comm= -p $$ and ps -o comm= -p $$ without redirecting stderr. Print their exit
+  codes. Do not edit files.
+
+
+• Captain, I’ll run both ps commands in one shell and print each exit code, with stderr left visible.
+
+• Ran ps -ww -o comm= -p $$; printf 'ps -ww exit code: %s\n' "$?"; ps -o comm= -p $$; printf 'ps exit code: %s\n' "$?"
+  └ ps -ww exit code: 127
+    zsh:1: operation not permitted: ps
+    ps exit code: 127
+    + 1 line (ctrl+t to expand)
+
+• Captain, the exact output was:
+
+  zsh:1: operation not permitted: ps
+  ps -ww exit code: 127
+  zsh:1: operation not permitted: ps
+  ps exit code: 127
+  └ Tip: Use /fork to branch the current chat into a new thread.
+
+  Worked for 14s • 12:27 PM
+
+
+› Ask Codex to do anything
+
+  GPT-6-Sol xhigh · ~/.no-mistakes/worktrees/7d32405f422e/01M3YJNRJDNJZVG7ST9Y9YXF4M · Run environment filter
+  ? for shortcuts                                                                              ⚠ 1 warning · f2 to view
