@@ -35,6 +35,9 @@ Codex sessions on one machine share one managed app-server daemon, launched as `
 A process that daemon spawns inherits the environment of whichever launcher started it, so a shell can see a different Firstmate home than the session that asked for it.
 Verified on 2026-10-01 with codex-cli 0.158.0 and the installed daemon binary 0.160.0: `codex features list -c 'shell_environment_policy.set.FM_HOME="/tmp/fm-probe-home"'` accepts the key, and `-c 'shell_environment_policy.set=123'` is rejected because `shell_environment_policy.set` must be a map.
 `bin/fm-spawn.sh` passes one repeatable `-c 'shell_environment_policy.set.<NAME>="<value>"'` per launch for `FM_HOME` and the other per-launch Firstmate variables those shells read, which overrides the daemon's inherited values for that session.
+Verified on 2026-10-01 with codex-cli 0.158.0: a real Stop hook does not receive `shell_environment_policy.set`.
+That hook kept the environment of the process that launched the session, including that process's `FM_HOME`, and its working directory was the session directory.
+`.codex/hooks.json` therefore sets `FM_HOME` from `pwd -P` and clears the Firstmate home overrides before it runs the hook script.
 `bin/fm-session-lock-lib.sh` does not accept the daemon or its updater as a session anchor, because either pid outlives every session and would hold the home lock forever.
 
 ## Skill popup

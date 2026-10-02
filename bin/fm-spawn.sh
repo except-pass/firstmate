@@ -1886,9 +1886,11 @@ codex_shell_environment_flag() { # <key> <value>
 }
 
 # Per-launch shell environment for a Codex worker or secondmate.
-# Tool shells and lifecycle hooks are children of the shared app-server daemon,
-# so they inherit whichever home started that daemon. shell_environment_policy.set
-# is applied to each session's spawned shells and overrides that inheritance.
+# Tool shells spawned for a Codex session inherit the shared app-server daemon's
+# environment, which is whichever home started that daemon.
+# shell_environment_policy.set is applied to those shells and overrides it.
+# Codex lifecycle hooks do not receive this policy; .codex/hooks.json sets
+# FM_HOME from the hook's own root instead.
 # $1 is the home those shells must see. $2 is worker or secondmate. A secondmate
 # also receives its cleared overrides, the primary home, the frozen trace
 # decision, and the supervision model ($3, $4, $5), matching the pane prefix
@@ -1914,10 +1916,25 @@ codex_shell_environment_flags() {
     flags+=$(codex_shell_environment_flag FM_PROJECTS_OVERRIDE "${FM_PROJECTS_OVERRIDE:-}")
     flags+=$(codex_shell_environment_flag FM_CONFIG_OVERRIDE "${FM_CONFIG_OVERRIDE:-}")
   fi
+  if [ "$role" = secondmate ]; then
+    flags+=$(codex_shell_environment_flag FM_TASK_ID "")
+  else
+    flags+=$(codex_shell_environment_flag FM_TASK_ID "$ID")
+  fi
+  flags+=$(codex_shell_environment_flag GOTMPDIR "$TASK_TMP/gotmp")
+  flags+=$(codex_shell_environment_flag TRACEPARENT "${SPAWN_TRACEPARENT:-}")
+  if [ "${LAVISH_AXI_HOST_CONFIG_PRESENT:-0}" = 1 ]; then
+    flags+=$(codex_shell_environment_flag LAVISH_AXI_HOST "$LAVISH_AXI_HOST")
+  else
+    flags+=$(codex_shell_environment_flag LAVISH_AXI_HOST "")
+  fi
+  flags+=$(codex_shell_environment_flag COMPACT_ADVISER_DISABLE 1)
   if [ "${KEEP_AI_TRAILERS:-0}" = 0 ]; then
     flags+=$(codex_shell_environment_flag GIT_CONFIG_COUNT 1)
     flags+=$(codex_shell_environment_flag GIT_CONFIG_KEY_0 core.hooksPath)
     flags+=$(codex_shell_environment_flag GIT_CONFIG_VALUE_0 "$GIT_HOOKS_DIR")
+  else
+    flags+=$(codex_shell_environment_flag GIT_CONFIG_COUNT 0)
   fi
   printf '%s' "$flags"
 }

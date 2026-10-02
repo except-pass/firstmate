@@ -334,17 +334,37 @@ fm_session_lock_under_codex_daemon() {
   return 1
 }
 
+# Print process $1's current directory, or return 1.
+# Linux uses /proc. Elsewhere lsof reports the cwd. A missing tool or an
+# unreadable cwd fails closed rather than guessing a client.
+fm_process_cwd() { # <pid>
+  local pid=$1 path
+  case "$pid" in ''|*[!0-9]*) return 1 ;; esac
+  if [ -d "/proc/$pid/cwd" ]; then
+    path=$(readlink "/proc/$pid/cwd" 2>/dev/null) || return 1
+    [ -n "$path" ] || return 1
+    printf '%s\n' "$path"
+    return 0
+  fi
+  command -v lsof >/dev/null 2>&1 || return 1
+  path=$(lsof -a -p "$pid" -d cwd -Fn 2>/dev/null | sed -n 's/^n//p' | head -n 1)
+  [ -n "$path" ] || return 1
+  printf '%s\n' "$path"
+}
+
 # Print the Codex client pid for this home when this process is under the
 # shared app-server daemon and the ancestry walk found no session process.
 # Hooks and tool shells spawned by that daemon are not descendants of the
 # client, so the client is not in their ancestry. It is the process whose own
 # environment carries this home's FM_HOME and that is not itself the daemon.
-# A ship or scout client also carries FM_TASK_ID; the primary session does not,
-# and anchoring the home lock on a worker would let that worker own the primary
-# session. Zero matches and more than one match both fail: guessing a client
-# would record some other session's pid.
+# A primary started as plain `codex` has no FM_HOME; that client is the one
+# whose cwd is this home. A ship or scout client also carries FM_TASK_ID; the
+# primary session does not, and anchoring the home lock on a worker would let
+# that worker own the primary session. Zero matches and more than one match
+# both fail: guessing a client would record some other session's pid.
 fm_session_lock_codex_client_pid() {
-  local home=${FM_HOME:-} pid comm base args env_home task_id found=''
+  local home=${FM_HOME:-} pid comm base args env_home task_id cwd
+  local env_found='' cwd_found='' env_dup=0 cwd_dup=0
   fm_session_lock_under_codex_daemon || return 1
   [ -n "$home" ] || return 1
   while read -r pid comm; do
@@ -353,17 +373,32 @@ fm_session_lock_codex_client_pid() {
     [ "$base" = codex ] || continue
     args=$(ps -o args= -p "$pid" 2>/dev/null) || continue
     fm_codex_shared_daemon_process "$comm" "$args" && continue
-    env_home=$(fm_process_env_value "$pid" FM_HOME || true)
-    [ "$env_home" = "$home" ] || continue
     task_id=$(fm_process_env_value "$pid" FM_TASK_ID || true)
     [ -z "$task_id" ] || continue
-    if [ -n "$found" ]; then
-      return 1
+    env_home=$(fm_process_env_value "$pid" FM_HOME || true)
+    if [ -n "$env_home" ]; then
+      [ "$env_home" = "$home" ] || continue
+      if [ -n "$env_found" ]; then
+        env_dup=1
+      fi
+      env_found=$pid
+      continue
     fi
-    found=$pid
+    cwd=$(fm_process_cwd "$pid" || true)
+    [ "$cwd" = "$home" ] || continue
+    if [ -n "$cwd_found" ]; then
+      cwd_dup=1
+    fi
+    cwd_found=$pid
   done < <(ps -ax -o pid=,comm= 2>/dev/null)
-  [ -n "$found" ] || return 1
-  printf '%s\n' "$found"
+  if [ -n "$env_found" ]; then
+    [ "$env_dup" -eq 0 ] || return 1
+    printf '%s\n' "$env_found"
+    return 0
+  fi
+  [ -n "$cwd_found" ] || return 1
+  [ "$cwd_dup" -eq 0 ] || return 1
+  printf '%s\n' "$cwd_found"
 }
 
 # Print the pid bin/fm-lock.sh records on lock line 1 for this session. For a

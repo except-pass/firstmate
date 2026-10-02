@@ -92,10 +92,15 @@ case "$pid:$field" in
   1:comm=) printf '%s\n' launchd ;;
   1:args=) printf '%s\n' launchd ;;
   1:ppid=) printf '%s\n' 0 ;;
+  904:comm=) printf '%s\n' codex ;;
+  904:args=) printf '%s\n' /opt/codex ;;
+  904:command=) printf '%s\n' /opt/codex ;;
+  904:ppid=) printf '%s\n' 1 ;;
   :pid=,comm=)
     printf '%s\n' '799 codex' '800 codex' '901 codex' '902 codex'
     [ "${FM_TEST_HIDE_PRIMARY:-0}" = 1 ] || printf '%s\n' '900 codex'
     [ "${FM_TEST_SECOND_CLIENT:-0}" = 1 ] && printf '%s\n' '903 codex'
+    [ "${FM_TEST_PLAIN_PRIMARY:-0}" = 1 ] && printf '%s\n' '904 codex'
     ;;
   *:comm=) printf '%s\n' bash ;;
   *:args=) printf '%s\n' 'bash hook' ;;
@@ -104,6 +109,21 @@ case "$pid:$field" in
 esac
 SH
   chmod +x "$1/ps"
+  cat > "$1/lsof" <<'SH'
+#!/usr/bin/env bash
+set -u
+pid=
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -p) pid=$2; shift 2 ;;
+    *) shift ;;
+  esac
+done
+case "$pid:${FM_TEST_PLAIN_PRIMARY:-0}" in
+  904:1) printf 'p904\nfcwd\nn/homes/a\n' ;;
+esac
+SH
+  chmod +x "$1/lsof"
 }
 
 test_codex_shared_daemon_is_not_the_session_anchor() {
@@ -156,6 +176,9 @@ test_codex_shared_daemon_is_not_the_session_anchor() {
   if FM_HOME=/homes/a FM_TEST_HIDE_PRIMARY=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid'; then
     fail "a worker client carrying FM_TASK_ID was used as the home's session anchor"
   fi
+  got=$(FM_HOME=/homes/a FM_TEST_HIDE_PRIMARY=1 FM_TEST_PLAIN_PRIMARY=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
+    || fail "a plain codex primary with no FM_HOME produced no anchor"
+  [ "$got" = 904 ] || fail "the plain primary anchored '$got', expected the client whose cwd is this home"
 
   FM_TEST_CODEX_SHAPE=host lib_eval "$fakebin" 'fm_harness_pid_alive 850' \
     && fail "codex-code-mode-host was accepted as a harness"
