@@ -66,56 +66,45 @@ if [ "${FM_TEST_CODEX_SHAPE:-daemon}" = host ]; then
   exit 0
 fi
 client900_args='/opt/codex --model gpt-5 -- the daemon is codex app-server --managed-daemon'
-client900_home=/homes/a
-case "${FM_TEST_SPACED_HOME:-0}" in
-  1) client900_home='/homes/my home' ;;
-  2) client900_home='/homes/my FM_TASK_ID=notes' ;;
-esac
+daemon_comm=codex
+daemon_argv0=/opt/codex
+if [ "${FM_TEST_SPACED_CODEX_BIN:-0}" = 1 ]; then
+  daemon_comm='/opt/Codex App/codex'
+  daemon_argv0=$daemon_comm
+fi
 case "$pid:$field" in
-  799:comm=) printf '%s\n' codex ;;
-  799:args=) printf '%s\n' '/opt/codex app-server daemon pid-update-loop' ;;
+  799:comm=) printf '%s\n' "$daemon_comm" ;;
+  799:args=) printf '%s\n' "$daemon_argv0 app-server daemon pid-update-loop" ;;
   799:ppid=) printf '%s\n' 1 ;;
-  800:comm=) printf '%s\n' codex ;;
-  800:args=) printf '%s\n' '/opt/codex app-server --listen unix:// --managed-daemon' ;;
+  800:comm=) printf '%s\n' "$daemon_comm" ;;
+  800:args=) printf '%s\n' "$daemon_argv0 app-server --listen unix:// --managed-daemon" ;;
   800:ppid=) printf '%s\n' 799 ;;
   900:comm=) printf '%s\n' codex ;;
   900:args=) printf '%s\n' "$client900_args" ;;
-  900:command=) printf '%s\n' "$client900_args FM_HOME=$client900_home FM_TASK_ID=" ;;
   900:ppid=) printf '%s\n' 1 ;;
   901:comm=) printf '%s\n' codex ;;
   901:args=) printf '%s\n' '/opt/codex --model gpt-5' ;;
-  901:command=) printf '%s\n' '/opt/codex --model gpt-5 FM_HOME=/homes/b' ;;
   901:ppid=) printf '%s\n' 1 ;;
   902:comm=) printf '%s\n' codex ;;
   902:args=) printf '%s\n' '/opt/codex --model gpt-5' ;;
-  902:command=) printf '%s\n' '/opt/codex --model gpt-5 FM_HOME=/homes/a FM_TASK_ID=worker-1' ;;
   902:ppid=) printf '%s\n' 1 ;;
   903:comm=) printf '%s\n' codex ;;
   903:args=) printf '%s\n' '/opt/codex --model gpt-5' ;;
-  903:command=) printf '%s\n' '/opt/codex --model gpt-5 FM_HOME=/homes/a' ;;
   903:ppid=) printf '%s\n' 1 ;;
   1:comm=) printf '%s\n' launchd ;;
   1:args=) printf '%s\n' launchd ;;
   1:ppid=) printf '%s\n' 0 ;;
   904:comm=) printf '%s\n' codex ;;
   904:args=) printf '%s\n' /opt/codex ;;
-  904:command=)
-    if [ "${FM_TEST_EMPTY_HOME:-0}" = 1 ]; then
-      printf '%s\n' '/opt/codex FM_HOME='
-    else
-      printf '%s\n' /opt/codex
-    fi
-    ;;
   904:ppid=) printf '%s\n' 1 ;;
   :pid=,comm=)
-    printf '%s\n' '799 codex' '800 codex' '901 codex' '902 codex'
+    printf '%s\n' "799 $daemon_comm" "800 $daemon_comm" '901 codex' '902 codex'
     [ "${FM_TEST_HIDE_PRIMARY:-0}" = 1 ] || printf '%s\n' '900 codex'
     [ "${FM_TEST_SECOND_CLIENT:-0}" = 1 ] && printf '%s\n' '903 codex'
     [ "${FM_TEST_PLAIN_PRIMARY:-0}" = 1 ] && printf '%s\n' '904 codex'
     ;;
   *:comm=) printf '%s\n' bash ;;
   *:args=) printf '%s\n' 'bash hook' ;;
-  *:command=) printf '%s\n' 'bash hook' ;;
   *:ppid=) printf '%s\n' 800 ;;
 esac
 SH
@@ -135,6 +124,27 @@ case "$pid:${FM_TEST_PLAIN_PRIMARY:-0}" in
 esac
 SH
   chmod +x "$1/lsof"
+  cat > "$1/python3" <<'SH'
+#!/usr/bin/env bash
+pid=$2 home=$3
+case "$pid" in
+  900)
+    expected=/homes/a
+    case "${FM_TEST_SPACED_HOME:-0}" in
+      1) expected='/homes/my home' ;;
+      2) expected='/homes/my FM_TASK_ID=notes' ;;
+    esac
+    [ "$home" = "$expected" ] || exit 1
+    printf '%s\n' env
+    ;;
+  901) [ "$home" = /homes/b ] || exit 1; printf '%s\n' env ;;
+  902) exit 1 ;;
+  903) [ "$home" = /homes/a ] || exit 1; printf '%s\n' env ;;
+  904) printf '%s\n' cwd ;;
+  *) exit 1 ;;
+esac
+SH
+  chmod +x "$1/python3"
 }
 
 test_codex_shared_daemon_is_not_the_session_anchor() {
@@ -151,12 +161,21 @@ test_codex_shared_daemon_is_not_the_session_anchor() {
   if lib_eval "$fakebin" 'fm_harness_pid_alive 799'; then
     fail "the app-server updater loop was accepted as a live harness"
   fi
+  if FM_TEST_SPACED_CODEX_BIN=1 lib_eval "$fakebin" 'fm_harness_pid_alive 800'; then
+    fail "a shared daemon with a spaced executable path was accepted as a live harness"
+  fi
+  if FM_TEST_SPACED_CODEX_BIN=1 lib_eval "$fakebin" 'fm_harness_pid_alive 799'; then
+    fail "a shared updater with a spaced executable path was accepted as a live harness"
+  fi
   FM_HOME=/homes/a lib_eval "$fakebin" 'fm_harness_pid_alive 900' \
     || fail "the Codex client was not recognized as a live harness"
 
   got=$(FM_HOME=/homes/a lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
     || fail "no anchor pid was resolved under the shared daemon"
   [ "$got" = 900 ] || fail "the daemon-spawned hook anchored '$got', expected the client 900"
+  got=$(FM_HOME=/homes/a FM_TEST_SPACED_CODEX_BIN=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
+    || fail "a spaced Codex executable left no client anchor"
+  [ "$got" = 900 ] || fail "a spaced Codex executable anchored '$got', expected the client 900"
   got=$(FM_HOME='/homes/my home' FM_TEST_SPACED_HOME=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
     || fail "a Codex client with a spaced home produced no anchor"
   [ "$got" = 900 ] || fail "the spaced home anchored '$got', expected the client 900"
@@ -212,9 +231,6 @@ test_codex_shared_daemon_is_not_the_session_anchor() {
   got=$(FM_HOME=/homes/a FM_TEST_HIDE_PRIMARY=1 FM_TEST_PLAIN_PRIMARY=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
     || fail "a plain codex primary with no FM_HOME produced no anchor"
   [ "$got" = 904 ] || fail "the plain primary anchored '$got', expected the client whose cwd is this home"
-  got=$(FM_HOME=/homes/a FM_TEST_HIDE_PRIMARY=1 FM_TEST_PLAIN_PRIMARY=1 FM_TEST_EMPTY_HOME=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
-    || fail "a plain codex primary with empty FM_HOME produced no anchor"
-  [ "$got" = 904 ] || fail "the empty-home primary anchored '$got', expected the client whose cwd is this home"
 
   FM_TEST_CODEX_SHAPE=host lib_eval "$fakebin" 'fm_harness_pid_alive 850' \
     && fail "codex-code-mode-host was accepted as a harness"
@@ -223,6 +239,56 @@ test_codex_shared_daemon_is_not_the_session_anchor() {
   [ "$got" = 900 ] || fail "the code-mode host chain anchored '$got', expected the client 900"
 
   pass "session-lock: the shared Codex daemon is not the session anchor"
+}
+
+test_codex_client_environment_values_are_complete() {
+  local home ready pid got cwd
+  home="$TMP_ROOT/my FM_TASK_ID=notes"
+  ready="$TMP_ROOT/env-ready"
+  mkdir -p "$home"
+  (
+    cd "$home" || exit 1
+    exec env -u FM_HOME -u FM_TASK_ID FM_HOME="$home" PWD="$home" FM_TASK_ID= \
+      python3 -c 'import pathlib,sys,time; pathlib.Path(sys.argv[1]).touch(); time.sleep(15)' "$ready"
+  ) &
+  pid=$!
+  for _ in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
+    [ -f "$ready" ] && break
+    sleep 0.05
+  done
+  [ -f "$ready" ] || fail "the live Codex environment probe did not start"
+  got=$(bash -c '. "$1"; fm_session_lock_codex_client_env "$2" "$3"' _ "$LIB" "$pid" "$home") \
+    || fail "a complete FM_HOME with assignment-shaped PWD was not recognized"
+  [ "$got" = env ] || fail "the assignment-shaped home was classified as '$got'"
+  if bash -c '. "$1"; fm_session_lock_codex_client_env "$2" "$3"' _ "$LIB" "$pid" "$TMP_ROOT/my"; then
+    fail "a prefix of the live client's FM_HOME was accepted"
+  fi
+  kill "$pid" 2>/dev/null || true
+  wait "$pid" 2>/dev/null || true
+
+  home="$TMP_ROOT/my FM_HOME=other"
+  ready="$TMP_ROOT/cwd-ready"
+  mkdir -p "$home"
+  (
+    cd "$home" || exit 1
+    exec env -u FM_HOME -u FM_TASK_ID PWD="$home" \
+      python3 -c 'import pathlib,sys,time; pathlib.Path(sys.argv[1]).touch(); time.sleep(15)' "$ready"
+  ) &
+  pid=$!
+  for _ in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
+    [ -f "$ready" ] && break
+    sleep 0.05
+  done
+  [ -f "$ready" ] || fail "the live Codex cwd probe did not start"
+  got=$(bash -c '. "$1"; fm_session_lock_codex_client_env "$2" "$3"' _ "$LIB" "$pid" "$home") \
+    || fail "assignment-shaped PWD was mistaken for an FM_HOME variable"
+  [ "$got" = cwd ] || fail "the plain primary was classified as '$got'"
+  cwd=$(bash -c '. "$1"; fm_process_cwd "$2"' _ "$LIB" "$pid") \
+    || fail "the plain primary cwd was unreadable"
+  [ "$cwd" = "$home" ] || fail "the plain primary cwd was '$cwd', expected '$home'"
+  kill "$pid" 2>/dev/null || true
+  wait "$pid" 2>/dev/null || true
+  pass "session-lock: complete process environment values preserve home and cwd identity"
 }
 
 # Run one library expression with <fakebin> shadowing ps. kill is stubbed so
@@ -1297,6 +1363,7 @@ test_harness_beyond_a_gap_never_owns_the_lock
 test_competing_version_named_session_is_seen_as_live
 test_same_session_id_owns_a_recycled_background_chain
 test_codex_shared_daemon_is_not_the_session_anchor
+test_codex_client_environment_values_are_complete
 test_anchor_pid_is_the_model_loop_process_only_for_a_trusted_id
 test_e2e_version_named_session_claims_the_home
 test_e2e_daemon_parented_session_claims_the_home

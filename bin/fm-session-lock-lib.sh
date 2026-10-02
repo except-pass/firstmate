@@ -48,8 +48,12 @@ fm_codex_shared_daemon_process() {  # <comm> <args>
   local comm=$1 args=$2 base rest
   base=$(basename -- "$comm")
   [ "$base" = codex ] || return 1
-  rest=${args#* }
-  [ "$rest" != "$args" ] || return 1
+  case "$args" in
+    "$comm "*) rest=${args#"$comm "} ;;
+    */codex\ *) rest=${args#*/codex } ;;
+    codex\ *) rest=${args#codex } ;;
+    *) return 1 ;;
+  esac
   case "$rest" in
     'app-server daemon'*) return 0 ;;
     'app-server '*'--managed-daemon'*) return 0 ;;
@@ -281,9 +285,9 @@ fm_session_lock_same_session() {  # <state> [<ancestry-pids>]
 
 # Print env when process $1 has this home's FM_HOME, cwd when it has none,
 # or fail when its home differs or it carries a task id.
-fm_session_lock_codex_client_env() { # <pid> <home> <args>
-  local pid=$1 home=$2 args=$3 both rest before after needle line
-  local env_home='' task_id='' match
+fm_session_lock_codex_client_env() { # <pid> <home>
+  local pid=$1 home=$2 line
+  local env_home='' task_id=''
   case "$pid" in ''|*[!0-9]*) return 1 ;; esac
   if [ -r "/proc/$pid/environ" ]; then
     while IFS= read -r line; do
@@ -301,30 +305,52 @@ fm_session_lock_codex_client_env() { # <pid> <home> <args>
     fi
     return 0
   fi
-  both=$(ps -Eww -o command= -p "$pid" 2>/dev/null) || return 1
-  case "$both" in
-    "$args"*) rest=${both#"$args"} ;;
-    *) return 1 ;;
-  esac
-  rest="$rest "
-  needle=" FM_HOME=$home "
-  if [[ $rest == *"$needle"* ]]; then
-    before=${rest%%"$needle"*}
-    after=${rest#*"$needle"}
-    if [ -n "$after" ] && ! [[ $after =~ ^[A-Za-z_][A-Za-z0-9_]*= ]]; then
-      return 1
-    fi
-    rest="$before $after"
-    match=env
-  elif [[ $rest =~ (^|[[:space:]])FM_HOME=([[:space:]]|$) ]]; then
-    match=cwd
-  elif [[ $rest =~ (^|[[:space:]])FM_HOME= ]]; then
-    return 1
-  else
-    match=cwd
-  fi
-  [[ $rest =~ (^|[[:space:]])FM_TASK_ID=([^[:space:]]+) ]] && return 1
-  printf '%s\n' "$match"
+  python3 - "$pid" "$home" <<'PY'
+import ctypes
+import os
+import sys
+
+try:
+    if sys.platform != 'darwin':
+        sys.exit(1)
+    mib = (ctypes.c_int * 3)(1, 49, int(sys.argv[1]))
+    libc = ctypes.CDLL(None, use_errno=True)
+    libc.sysctl.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_uint,
+                            ctypes.c_void_p, ctypes.POINTER(ctypes.c_size_t),
+                            ctypes.c_void_p, ctypes.c_size_t]
+    size = ctypes.c_size_t()
+    if libc.sysctl(mib, 3, None, ctypes.byref(size), None, 0) != 0:
+        sys.exit(1)
+    buffer = ctypes.create_string_buffer(size.value)
+    if libc.sysctl(mib, 3, buffer, ctypes.byref(size), None, 0) != 0:
+        sys.exit(1)
+    raw = buffer.raw[:size.value]
+    argc = int.from_bytes(raw[:4], sys.byteorder, signed=True)
+    if argc < 1:
+        sys.exit(1)
+    pos = raw.index(0, 4) + 1
+    while raw[pos] == 0:
+        pos += 1
+    for _ in range(argc):
+        pos = raw.index(0, pos) + 1
+    values = []
+    for entry in raw[pos:].split(b'\0'):
+        if not entry:
+            break
+        values.append(entry)
+    homes = [entry[len(b'FM_HOME='):] for entry in values if entry.startswith(b'FM_HOME=')]
+    tasks = [entry[len(b'FM_TASK_ID='):] for entry in values if entry.startswith(b'FM_TASK_ID=')]
+    if len(homes) > 1 or any(tasks):
+        sys.exit(1)
+    if homes and homes[0]:
+        if homes[0] != os.fsencode(sys.argv[2]):
+            sys.exit(1)
+        print('env')
+    else:
+        print('cwd')
+except (IndexError, OSError, OverflowError, ValueError):
+    sys.exit(1)
+PY
 }
 
 # True when the shared Codex app-server daemon is an ancestor of this process.
@@ -383,7 +409,7 @@ fm_session_lock_codex_client_pid() {
     [ "$base" = codex ] || continue
     args=$(ps -o args= -p "$pid" 2>/dev/null) || continue
     fm_codex_shared_daemon_process "$comm" "$args" && continue
-    match=$(fm_session_lock_codex_client_env "$pid" "$home" "$args") || continue
+    match=$(fm_session_lock_codex_client_env "$pid" "$home") || continue
     if [ "$match" = cwd ]; then
       cwd=$(fm_process_cwd "$pid" || true)
       [ "$cwd" = "$home" ] || continue
