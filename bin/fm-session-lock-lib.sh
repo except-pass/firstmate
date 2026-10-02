@@ -279,34 +279,52 @@ fm_session_lock_same_session() {  # <state> [<ancestry-pids>]
   [ "$recorded" = "$trusted" ]
 }
 
-# Print the value of environment variable $2 in process $1, or return 1.
-# Linux reads /proc/<pid>/environ. Elsewhere the environment is the suffix
-# `ps -Eww` appends after the argument string, so a value that appears only
-# inside the command line is ignored.
-fm_process_env_value() {  # <pid> <name>
-  local pid=$1 name=$2 args both rest value line
+# Print env when process $1 has this home's FM_HOME, cwd when it has none,
+# or fail when its home differs or it carries a task id.
+fm_session_lock_codex_client_env() { # <pid> <home> <args>
+  local pid=$1 home=$2 args=$3 both rest before after needle line
+  local env_home='' task_id='' match
   case "$pid" in ''|*[!0-9]*) return 1 ;; esac
-  case "$name" in ''|*[!A-Za-z0-9_]*) return 1 ;; esac
   if [ -r "/proc/$pid/environ" ]; then
     while IFS= read -r line; do
       case "$line" in
-        "$name"=*) printf '%s\n' "${line#"$name"=}"; return 0 ;;
+        FM_HOME=*) env_home=${line#FM_HOME=} ;;
+        FM_TASK_ID=*) task_id=${line#FM_TASK_ID=} ;;
       esac
     done < <(tr '\0' '\n' < "/proc/$pid/environ")
-    return 1
+    [ -z "$task_id" ] || return 1
+    if [ -n "$env_home" ]; then
+      [ "$env_home" = "$home" ] || return 1
+      printf '%s\n' env
+    else
+      printf '%s\n' cwd
+    fi
+    return 0
   fi
-  args=$(ps -ww -o args= -p "$pid" 2>/dev/null) || return 1
   both=$(ps -Eww -o command= -p "$pid" 2>/dev/null) || return 1
   case "$both" in
     "$args"*) rest=${both#"$args"} ;;
     *) return 1 ;;
   esac
-  [[ $rest =~ (^|[[:space:]])${name}=(.*) ]] || return 1
-  value=${BASH_REMATCH[2]}
-  if [[ $value =~ [[:space:]][A-Za-z_][A-Za-z0-9_]*= ]]; then
-    value=${value%%"${BASH_REMATCH[0]}"*}
+  rest="$rest "
+  needle=" FM_HOME=$home "
+  if [[ $rest == *"$needle"* ]]; then
+    before=${rest%%"$needle"*}
+    after=${rest#*"$needle"}
+    if [ -n "$after" ] && ! [[ $after =~ ^[A-Za-z_][A-Za-z0-9_]*= ]]; then
+      return 1
+    fi
+    rest="$before $after"
+    match=env
+  elif [[ $rest =~ (^|[[:space:]])FM_HOME=([[:space:]]|$) ]]; then
+    match=cwd
+  elif [[ $rest =~ (^|[[:space:]])FM_HOME= ]]; then
+    return 1
+  else
+    match=cwd
   fi
-  printf '%s\n' "$value"
+  [[ $rest =~ (^|[[:space:]])FM_TASK_ID=([^[:space:]]+) ]] && return 1
+  printf '%s\n' "$match"
 }
 
 # True when the shared Codex app-server daemon is an ancestor of this process.
@@ -356,8 +374,7 @@ fm_process_cwd() { # <pid>
 # that worker own the primary session. Zero matches and more than one match
 # both fail: guessing a client would record some other session's pid.
 fm_session_lock_codex_client_pid() {
-  local home=${FM_HOME:-} pid comm base args env_home task_id cwd
-  local env_found='' cwd_found='' env_dup=0 cwd_dup=0
+  local home=${FM_HOME:-} pid comm base args match cwd found=''
   fm_session_lock_under_codex_daemon || return 1
   [ -n "$home" ] || return 1
   while read -r pid comm; do
@@ -366,32 +383,16 @@ fm_session_lock_codex_client_pid() {
     [ "$base" = codex ] || continue
     args=$(ps -o args= -p "$pid" 2>/dev/null) || continue
     fm_codex_shared_daemon_process "$comm" "$args" && continue
-    task_id=$(fm_process_env_value "$pid" FM_TASK_ID || true)
-    [ -z "$task_id" ] || continue
-    env_home=$(fm_process_env_value "$pid" FM_HOME || true)
-    if [ -n "$env_home" ]; then
-      [ "$env_home" = "$home" ] || continue
-      if [ -n "$env_found" ]; then
-        env_dup=1
-      fi
-      env_found=$pid
-      continue
+    match=$(fm_session_lock_codex_client_env "$pid" "$home" "$args") || continue
+    if [ "$match" = cwd ]; then
+      cwd=$(fm_process_cwd "$pid" || true)
+      [ "$cwd" = "$home" ] || continue
     fi
-    cwd=$(fm_process_cwd "$pid" || true)
-    [ "$cwd" = "$home" ] || continue
-    if [ -n "$cwd_found" ]; then
-      cwd_dup=1
-    fi
-    cwd_found=$pid
+    [ -z "$found" ] || return 1
+    found=$pid
   done < <(ps -ax -o pid=,comm= 2>/dev/null)
-  if [ -n "$env_found" ]; then
-    [ "$env_dup" -eq 0 ] || return 1
-    printf '%s\n' "$env_found"
-    return 0
-  fi
-  [ -n "$cwd_found" ] || return 1
-  [ "$cwd_dup" -eq 0 ] || return 1
-  printf '%s\n' "$cwd_found"
+  [ -n "$found" ] || return 1
+  printf '%s\n' "$found"
 }
 
 # Print the pid bin/fm-lock.sh records on lock line 1 for this session. For a

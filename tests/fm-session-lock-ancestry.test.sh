@@ -67,7 +67,10 @@ if [ "${FM_TEST_CODEX_SHAPE:-daemon}" = host ]; then
 fi
 client900_args='/opt/codex --model gpt-5 -- the daemon is codex app-server --managed-daemon'
 client900_home=/homes/a
-[ "${FM_TEST_SPACED_HOME:-0}" = 1 ] && client900_home='/homes/my home'
+case "${FM_TEST_SPACED_HOME:-0}" in
+  1) client900_home='/homes/my home' ;;
+  2) client900_home='/homes/my FM_TASK_ID=notes' ;;
+esac
 case "$pid:$field" in
   799:comm=) printf '%s\n' codex ;;
   799:args=) printf '%s\n' '/opt/codex app-server daemon pid-update-loop' ;;
@@ -96,7 +99,13 @@ case "$pid:$field" in
   1:ppid=) printf '%s\n' 0 ;;
   904:comm=) printf '%s\n' codex ;;
   904:args=) printf '%s\n' /opt/codex ;;
-  904:command=) printf '%s\n' /opt/codex ;;
+  904:command=)
+    if [ "${FM_TEST_EMPTY_HOME:-0}" = 1 ]; then
+      printf '%s\n' '/opt/codex FM_HOME='
+    else
+      printf '%s\n' /opt/codex
+    fi
+    ;;
   904:ppid=) printf '%s\n' 1 ;;
   :pid=,comm=)
     printf '%s\n' '799 codex' '800 codex' '901 codex' '902 codex'
@@ -154,6 +163,12 @@ test_codex_shared_daemon_is_not_the_session_anchor() {
   if FM_HOME=/homes/my FM_TEST_SPACED_HOME=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid'; then
     fail "a prefix of the spaced home was accepted as the client's home"
   fi
+  got=$(FM_HOME='/homes/my FM_TASK_ID=notes' FM_TEST_SPACED_HOME=2 lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
+    || fail "an assignment-shaped home produced no Codex client anchor"
+  [ "$got" = 900 ] || fail "the assignment-shaped home anchored '$got', expected the client 900"
+  if FM_HOME=/homes/my FM_TEST_SPACED_HOME=2 lib_eval "$fakebin" 'fm_session_lock_anchor_pid'; then
+    fail "an assignment-shaped suffix was accepted as a task id outside the client's home"
+  fi
 
   printf '900\n' > "$state/.lock"
   FM_HOME=/homes/a owned "$fakebin" "$state" \
@@ -178,6 +193,16 @@ test_codex_shared_daemon_is_not_the_session_anchor() {
   if FM_HOME=/homes/a FM_TEST_SECOND_CLIENT=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid'; then
     fail "two clients for one home produced an anchor instead of failing"
   fi
+  if FM_HOME=/homes/a FM_TEST_PLAIN_PRIMARY=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid'; then
+    fail "an environment-matched client hid a second client matched by cwd"
+  fi
+  printf '900\n' > "$state/.lock"
+  if FM_HOME=/homes/a FM_TEST_PLAIN_PRIMARY=1 owned "$fakebin" "$state"; then
+    fail "mixed Codex clients treated one client's lock as their own"
+  fi
+  if FM_HOME=/homes/a FM_TEST_PLAIN_PRIMARY=1 foreign_owner "$fakebin" "$state" >/dev/null; then
+    fail "mixed Codex clients classified a lock without a unique session anchor"
+  fi
   if FM_HOME=/homes/none lib_eval "$fakebin" 'fm_session_lock_anchor_pid'; then
     fail "a home with no client produced an anchor"
   fi
@@ -187,6 +212,9 @@ test_codex_shared_daemon_is_not_the_session_anchor() {
   got=$(FM_HOME=/homes/a FM_TEST_HIDE_PRIMARY=1 FM_TEST_PLAIN_PRIMARY=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
     || fail "a plain codex primary with no FM_HOME produced no anchor"
   [ "$got" = 904 ] || fail "the plain primary anchored '$got', expected the client whose cwd is this home"
+  got=$(FM_HOME=/homes/a FM_TEST_HIDE_PRIMARY=1 FM_TEST_PLAIN_PRIMARY=1 FM_TEST_EMPTY_HOME=1 lib_eval "$fakebin" 'fm_session_lock_anchor_pid') \
+    || fail "a plain codex primary with empty FM_HOME produced no anchor"
+  [ "$got" = 904 ] || fail "the empty-home primary anchored '$got', expected the client whose cwd is this home"
 
   FM_TEST_CODEX_SHAPE=host lib_eval "$fakebin" 'fm_harness_pid_alive 850' \
     && fail "codex-code-mode-host was accepted as a harness"
