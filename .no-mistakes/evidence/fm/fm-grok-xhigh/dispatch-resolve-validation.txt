@@ -1,0 +1,25 @@
+# fm-dispatch-resolve.sh against lab FM_HOME (never-send list stops before any POST), branch 7d297c85
+== grok xhigh on grok-4.7
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7","effort":"xhigh"}}]}
+   exit=0 stderr: dispatch-resolve: off (brief text matches $LAB/config/dispatch-never-send line 1; nothing sent)
+== grok xhigh on grok-4.6
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.6","effort":"xhigh"}}]}
+   exit=0 stderr: dispatch-resolve: off (brief text matches $LAB/config/dispatch-never-send line 1; nothing sent)
+== grok xhigh on grok-4.7-build-fast in array default
+   config: {"rules":[{"when":"deep work","use":{"harness":"claude"}}],"default":[{"harness":"grok","model":"grok-4.7-build-fast","effort":"xhigh"},{"harness":"claude"}]}
+   exit=0 stderr: dispatch-resolve: off (brief text matches $LAB/config/dispatch-never-send line 1; nothing sent)
+== agy high (regression)
+   config: {"rules":[{"when":"deep work","use":{"harness":"agy","effort":"high"}}]}
+   exit=0 stderr: dispatch-resolve: off (brief text matches $LAB/config/dispatch-never-send line 1; nothing sent)
+== ADVERSARIAL grok xhigh on grok-4.5
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.5","effort":"xhigh"}}]}
+   exit=2 stderr: error: malformed rules file: $LAB/config/crew-dispatch.json - each use profile effort must be supported by its harness and model
+== ADVERSARIAL grok xhigh with no model
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","effort":"xhigh"}}]}
+   exit=2 stderr: error: malformed rules file: $LAB/config/crew-dispatch.json - each use profile effort must be supported by its harness and model
+== ADVERSARIAL grok max on grok-4.7
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7","effort":"max"}}]}
+   exit=2 stderr: error: malformed rules file: $LAB/config/crew-dispatch.json - each use profile effort must be supported by its harness and model
+== ADVERSARIAL agy xhigh on grok-4.7 (split branch not widened)
+   config: {"rules":[{"when":"deep work","use":{"harness":"agy","model":"grok-4.7","effort":"xhigh"}}]}
+   exit=2 stderr: error: malformed rules file: $LAB/config/crew-dispatch.json - each use profile effort must be supported by its harness and model

@@ -1,0 +1,21 @@
+# live lab pane: fm-spawn's emitted line for --model grok-4.5 --effort xhigh (flag omitted)
+$ grok --always-approve --model 'grok-4.5' '<prompt>'
+  /p/v/f/s/x/T/f/projects/demo                                                                                                        17K / 256K │ [Dashboard]
+     ❯ Reply with exactly the text G45-LIVE-OK and nothing else. Do not use tools.                                                                  11:14 PM
+     G45-LIVE-OK                                                                                                                                    11:14 PM
+     Worked for 1.8s                                                                                                                                           █
+  ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+  │ ❯                                                                                                                                                        │
+  ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── Grok 4.5 (high) · always-approve ─╯
+  Shift+Tab:mode  │  Ctrl+x:shortcuts
+
+# live lab pane: the line fm-spawn now refuses to build (grok-4.5 + --reasoning-effort xhigh)
+$ grok --always-approve --model 'grok-4.5' --reasoning-effort 'xhigh' 'Reply OK'
+  main /p/v/f/s/x/T/f/projects/demo                                                                                                   17K / 256K │ [Dashboard]
+     ❯ Reply OK                                                                                                                                     11:14 PM
+     OK                                                                                                                                             11:14 PM
+     Worked for 2.0s
+  ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+  │ ❯                                                                                                                                                        │
+  ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── Grok 4.5 (high) · always-approve ─╯
+  Shift+Tab:mode  │  Ctrl+x:shortcuts

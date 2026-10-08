@@ -1,0 +1,10 @@
+# live lab tmux (fm-lab socket) pane: grok 1.0.46 launched with the exact fm-spawn line for --model grok-4.7 --effort xhigh
+$ grok --always-approve --model 'grok-4.7' --reasoning-effort 'xhigh' '<prompt>'
+  /p/v/f/s/x/T/f/projects/demo                                                                                                        18K / 256K │ [Dashboard]
+     ❯ Reply with exactly the text XHIGH-LIVE-OK and nothing else. Do not use tools.                                                                11:13 PM
+     XHIGH-LIVE-OK                                                                                                                                  11:13 PM
+     Worked for 1.5s                                                                                                                                           █
+  ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+  │ ❯                                                                                                                                                        │
+  ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── Grok 4.7 (xhigh) · always-approve ─╯
+  Shift+Tab:mode  │  Ctrl+x:shortcuts

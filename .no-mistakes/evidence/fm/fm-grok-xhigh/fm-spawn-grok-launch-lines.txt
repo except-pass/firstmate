@@ -1,0 +1,31 @@
+# real bin/fm-spawn.sh (fake tmux/treehouse capture the literal launch line), branch 7d297c85
+grok-4.7               xhigh  spawn_exit=0 meta: model=grok-4.7 effort=xhigh 
+    launch: grok --always-approve --model 'grok-4.7' --reasoning-effort 'xhigh'
+grok-4.7               high   spawn_exit=0 meta: model=grok-4.7 effort=high 
+    launch: grok --always-approve --model 'grok-4.7' --reasoning-effort 'high'
+grok-4.7               max    spawn_exit=0 meta: model=grok-4.7 effort=max 
+    launch: grok --always-approve --model 'grok-4.7'
+grok-4.6               xhigh  spawn_exit=0 meta: model=grok-4.6 effort=xhigh 
+    launch: grok --always-approve --model 'grok-4.6' --reasoning-effort 'xhigh'
+grok-4.6               high   spawn_exit=0 meta: model=grok-4.6 effort=high 
+    launch: grok --always-approve --model 'grok-4.6' --reasoning-effort 'high'
+grok-4.6               max    spawn_exit=0 meta: model=grok-4.6 effort=max 
+    launch: grok --always-approve --model 'grok-4.6'
+grok-4.7-build-fast    xhigh  spawn_exit=0 meta: model=grok-4.7-build-fast effort=xhigh 
+    launch: grok --always-approve --model 'grok-4.7-build-fast' --reasoning-effort 'xhigh'
+grok-4.7-build-fast    high   spawn_exit=0 meta: model=grok-4.7-build-fast effort=high 
+    launch: grok --always-approve --model 'grok-4.7-build-fast' --reasoning-effort 'high'
+grok-4.7-build-fast    max    spawn_exit=0 meta: model=grok-4.7-build-fast effort=max 
+    launch: grok --always-approve --model 'grok-4.7-build-fast'
+grok-4.5               xhigh  spawn_exit=0 meta: model=grok-4.5 effort=xhigh 
+    launch: grok --always-approve --model 'grok-4.5'
+grok-4.5               high   spawn_exit=0 meta: model=grok-4.5 effort=high 
+    launch: grok --always-approve --model 'grok-4.5' --reasoning-effort 'high'
+grok-4.5               max    spawn_exit=0 meta: model=grok-4.5 effort=max 
+    launch: grok --always-approve --model 'grok-4.5'
+grok-4                 xhigh  spawn_exit=0 meta: model=grok-4 effort=xhigh 
+    launch: grok --always-approve --model 'grok-4'
+grok-4                 high   spawn_exit=0 meta: model=grok-4 effort=high 
+    launch: grok --always-approve --model 'grok-4' --reasoning-effort 'high'
+grok-4                 max    spawn_exit=0 meta: model=grok-4 effort=max 
+    launch: grok --always-approve --model 'grok-4'

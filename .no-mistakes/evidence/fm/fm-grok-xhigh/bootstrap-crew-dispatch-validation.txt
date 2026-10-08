@@ -1,0 +1,25 @@
+# fm-bootstrap.sh (detect-only, network skip) against lab FM_HOME, branch 7d297c85
+== grok xhigh on grok-4.7
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7","effort":"xhigh"}}]}
+   CREW_DISPATCH lines: <none - accepted>
+== grok xhigh on grok-4.6
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.6","effort":"xhigh"}}]}
+   CREW_DISPATCH lines: <none - accepted>
+== grok xhigh on grok-4.7-build-fast (default profile)
+   config: {"rules":[],"default":{"harness":"grok","model":"grok-4.7-build-fast","effort":"xhigh"}}
+   CREW_DISPATCH lines: <none - accepted>
+== grok high on grok-4.5 (regression)
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.5","effort":"high"}}]}
+   CREW_DISPATCH lines: <none - accepted>
+== ADVERSARIAL grok xhigh on grok-4.5
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.5","effort":"xhigh"}}]}
+   CREW_DISPATCH lines: CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+== ADVERSARIAL grok xhigh with no model
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","effort":"xhigh"}}]}
+   CREW_DISPATCH lines: CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:xhigh
+== ADVERSARIAL grok max on grok-4.7
+   config: {"rules":[{"when":"deep work","use":{"harness":"grok","model":"grok-4.7","effort":"max"}}]}
+   CREW_DISPATCH lines: CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: grok:max
+== ADVERSARIAL agy xhigh (scope not widened)
+   config: {"rules":[{"when":"deep work","use":{"harness":"agy","model":"grok-4.7","effort":"xhigh"}}]}
+   CREW_DISPATCH lines: CREW_DISPATCH: invalid config/crew-dispatch.json - invalid effort: agy:xhigh

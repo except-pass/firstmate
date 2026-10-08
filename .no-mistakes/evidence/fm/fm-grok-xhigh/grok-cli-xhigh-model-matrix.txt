@@ -1,0 +1,30 @@
+# grok grok 1.0.46 (2765805b9442) [stable]
+== grok -m grok-4.7 --reasoning-effort xhigh -p 'Reply with exactly: OK'
+OK
+exit=0
+== grok -m grok-4.7 --reasoning-effort max -p 'Reply with exactly: OK'
+--effort/--reasoning-effort: unknown effort level 'max'; use one of: xhigh, high, medium, low
+Error: --effort/--reasoning-effort: unknown effort level 'max'; use one of: xhigh, high, medium, low
+exit=0
+== grok -m grok-4.6 --reasoning-effort xhigh -p 'Reply with exactly: OK'
+OK
+exit=0
+== grok -m grok-4.6 --reasoning-effort max -p 'Reply with exactly: OK'
+--effort/--reasoning-effort: unknown effort level 'max'; use one of: xhigh, high, medium, low
+Error: --effort/--reasoning-effort: unknown effort level 'max'; use one of: xhigh, high, medium, low
+exit=0
+== grok -m grok-4.7-build-fast --reasoning-effort xhigh -p 'Reply with exactly: OK'
+OK
+exit=0
+== grok -m grok-4.7-build-fast --reasoning-effort max -p 'Reply with exactly: OK'
+--effort/--reasoning-effort: unknown effort level 'max'; use one of: xhigh, high, medium, low
+Error: --effort/--reasoning-effort: unknown effort level 'max'; use one of: xhigh, high, medium, low
+exit=0
+== grok -m grok-4.5 --reasoning-effort xhigh -p 'Reply with exactly: OK'
+--effort/--reasoning-effort: unknown effort level 'xhigh'; use one of: high, medium, low
+Error: --effort/--reasoning-effort: unknown effort level 'xhigh'; use one of: high, medium, low
+exit=0
+== grok -m grok-4.5 --reasoning-effort max -p 'Reply with exactly: OK'
+--effort/--reasoning-effort: unknown effort level 'max'; use one of: high, medium, low
+Error: --effort/--reasoning-effort: unknown effort level 'max'; use one of: high, medium, low
+exit=0
