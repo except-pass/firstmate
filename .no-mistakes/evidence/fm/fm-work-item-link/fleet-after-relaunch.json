@@ -1,39 +1,39 @@
 {
   "schema": "fm-fleet-snapshot.v1",
-  "generated": "2026-11-04T04:51:44Z",
-  "fm_home": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h",
+  "generated": "2026-11-04T07:35:18Z",
+  "fm_home": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home",
   "roots": {
-    "fm_root": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R",
-    "state": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/state",
-    "data": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/data",
-    "config": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/config",
-    "projects": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/projects"
+    "fm_root": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD",
+    "state": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state",
+    "data": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data",
+    "config": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/config",
+    "projects": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/projects"
   },
   "backlog": {
-    "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/data/backlog.md",
+    "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/backlog.md",
     "present": false,
     "records": []
   },
   "tasks": [
     {
-      "id": "linked",
+      "id": "linked-a1",
       "kind": "ship",
-      "harness": "sleep",
+      "harness": "codex",
       "mode": "local-only",
       "yolo": "off",
-      "branch": "fm/linked",
-      "work_item": "https://example.invalid/card/42?q=a=b&label=hello world",
-      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project",
-      "spawn_gen": "s1793767850.3370335.25174",
+      "branch": "fm/linked-a1",
+      "work_item": "https://notion.so/card-42?a=b&name=\"card\"",
+      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project",
+      "spawn_gen": "s1793777684.2516307.23475",
       "backend": "tmux",
       "remote": null,
       "paths": {
         "meta": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/state/linked.meta",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/linked-a1.meta",
           "present": true
         },
         "status_log": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/state/linked.status",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/linked-a1.status",
           "present": false,
           "kind": "event_history",
           "last_event": {
@@ -44,7 +44,7 @@
           }
         },
         "worktree": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project/.treehouse/project-8fb93a/1/project",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project/.treehouse/project-133d96/1/project",
           "present": true
         },
         "home": {
@@ -52,7 +52,7 @@
           "present": false
         },
         "report": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/data/linked/report.md",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/linked-a1/report.md",
           "present": false
         }
       },
@@ -60,17 +60,17 @@
       "current_state": {
         "state": "unknown",
         "source": "pane",
-        "detail": "harness state unavailable (unknown missing)",
-        "raw": "state: unknown · source: pane · harness state unavailable (unknown missing)",
-        "observed_at": "2026-11-04T04:51:44Z",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-04T07:35:18Z",
         "freshness": "fresh"
       },
       "endpoint": {
-        "target": "primary:fm-linked",
+        "target": "fm-lab-driver:fm-linked-a1",
         "exists": true,
         "agent_alive": "not_checked",
         "status": "unknown",
-        "observed_at": "2026-11-04T04:51:44Z",
+        "observed_at": "2026-11-04T07:35:18Z",
         "freshness": "fresh"
       },
       "pr": {
@@ -86,31 +86,31 @@
         "last_event_text": ""
       },
       "actions": {
-        "watch": "bin/fm-peek.sh fm-linked",
-        "steer": "bin/fm-send.sh fm-linked '<instruction>'",
+        "watch": "bin/fm-peek.sh fm-linked-a1",
+        "steer": "bin/fm-send.sh fm-linked-a1 '<instruction>'",
         "return_channel_note": null
       },
       "backlog": null
     },
     {
-      "id": "plain",
-      "kind": "ship",
-      "harness": "sleep",
-      "mode": "local-only",
-      "yolo": "off",
-      "branch": "fm/plain",
+      "id": "plain-a1",
+      "kind": "scout",
+      "harness": "codex",
+      "mode": "",
+      "yolo": "",
+      "branch": null,
       "work_item": null,
-      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project",
-      "spawn_gen": "s1793767854.3372276.21349",
+      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project",
+      "spawn_gen": "s1793777646.2484831.16253",
       "backend": "tmux",
       "remote": null,
       "paths": {
         "meta": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/state/plain.meta",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/plain-a1.meta",
           "present": true
         },
         "status_log": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/state/plain.status",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/plain-a1.status",
           "present": false,
           "kind": "event_history",
           "last_event": {
@@ -121,7 +121,7 @@
           }
         },
         "worktree": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project/.treehouse/project-8fb93a/2/project",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project/.treehouse/project-133d96/2/project",
           "present": true
         },
         "home": {
@@ -129,7 +129,7 @@
           "present": false
         },
         "report": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/data/plain/report.md",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/plain-a1/report.md",
           "present": false
         }
       },
@@ -137,17 +137,17 @@
       "current_state": {
         "state": "unknown",
         "source": "pane",
-        "detail": "harness state unavailable (unknown missing)",
-        "raw": "state: unknown · source: pane · harness state unavailable (unknown missing)",
-        "observed_at": "2026-11-04T04:51:44Z",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-04T07:35:18Z",
         "freshness": "fresh"
       },
       "endpoint": {
-        "target": "primary:fm-plain",
+        "target": "fm-lab-driver:fm-plain-a1",
         "exists": true,
         "agent_alive": "not_checked",
         "status": "unknown",
-        "observed_at": "2026-11-04T04:51:44Z",
+        "observed_at": "2026-11-04T07:35:18Z",
         "freshness": "fresh"
       },
       "pr": {
@@ -163,31 +163,31 @@
         "last_event_text": ""
       },
       "actions": {
-        "watch": "bin/fm-peek.sh fm-plain",
-        "steer": "bin/fm-send.sh fm-plain '<instruction>'",
+        "watch": "bin/fm-peek.sh fm-plain-a1",
+        "steer": "bin/fm-send.sh fm-plain-a1 '<instruction>'",
         "return_channel_note": null
       },
       "backlog": null
     },
     {
-      "id": "restart",
+      "id": "scout-a1",
       "kind": "scout",
-      "harness": "sleep",
+      "harness": "codex",
       "mode": "",
       "yolo": "",
       "branch": null,
-      "work_item": "card:keep-me",
-      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project",
-      "spawn_gen": "s1793767902.3422507.29925",
+      "work_item": "card:opaque-雪=42",
+      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project",
+      "spawn_gen": "s1793777705.2538163.3157",
       "backend": "tmux",
       "remote": null,
       "paths": {
         "meta": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/state/restart.meta",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/scout-a1.meta",
           "present": true
         },
         "status_log": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/state/restart.status",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/scout-a1.status",
           "present": false,
           "kind": "event_history",
           "last_event": {
@@ -198,7 +198,7 @@
           }
         },
         "worktree": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project/.treehouse/project-8fb93a/4/project",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project/.treehouse/project-133d96/3/project",
           "present": true
         },
         "home": {
@@ -206,7 +206,7 @@
           "present": false
         },
         "report": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/data/restart/report.md",
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/scout-a1/report.md",
           "present": false
         }
       },
@@ -214,17 +214,17 @@
       "current_state": {
         "state": "unknown",
         "source": "pane",
-        "detail": "harness state unavailable (unknown missing)",
-        "raw": "state: unknown · source: pane · harness state unavailable (unknown missing)",
-        "observed_at": "2026-11-04T04:51:44Z",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-04T07:35:18Z",
         "freshness": "fresh"
       },
       "endpoint": {
-        "target": "primary:fm-restart",
+        "target": "fm-lab-driver:fm-scout-a1",
         "exists": true,
         "agent_alive": "not_checked",
         "status": "unknown",
-        "observed_at": "2026-11-04T04:51:44Z",
+        "observed_at": "2026-11-04T07:35:18Z",
         "freshness": "fresh"
       },
       "pr": {
@@ -240,85 +240,8 @@
         "last_event_text": ""
       },
       "actions": {
-        "watch": "bin/fm-peek.sh fm-restart",
-        "steer": "bin/fm-send.sh fm-restart '<instruction>'",
-        "return_channel_note": null
-      },
-      "backlog": null
-    },
-    {
-      "id": "scout",
-      "kind": "scout",
-      "harness": "sleep",
-      "mode": "",
-      "yolo": "",
-      "branch": null,
-      "work_item": "notion:opaque-card-42",
-      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project",
-      "spawn_gen": "s1793767858.3378159.13095",
-      "backend": "tmux",
-      "remote": null,
-      "paths": {
-        "meta": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/state/scout.meta",
-          "present": true
-        },
-        "status_log": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/state/scout.status",
-          "present": false,
-          "kind": "event_history",
-          "last_event": {
-            "state": "",
-            "note": "",
-            "raw": "",
-            "age_seconds": null
-          }
-        },
-        "worktree": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project/.treehouse/project-8fb93a/3/project",
-          "present": true
-        },
-        "home": {
-          "path": null,
-          "present": false
-        },
-        "report": {
-          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/data/scout/report.md",
-          "present": false
-        }
-      },
-      "secondmate_projects": [],
-      "current_state": {
-        "state": "unknown",
-        "source": "pane",
-        "detail": "harness state unavailable (unknown missing)",
-        "raw": "state: unknown · source: pane · harness state unavailable (unknown missing)",
-        "observed_at": "2026-11-04T04:51:44Z",
-        "freshness": "fresh"
-      },
-      "endpoint": {
-        "target": "primary:fm-scout",
-        "exists": true,
-        "agent_alive": "not_checked",
-        "status": "unknown",
-        "observed_at": "2026-11-04T04:51:44Z",
-        "freshness": "fresh"
-      },
-      "pr": {
-        "url": null,
-        "source": "absent",
-        "head": null
-      },
-      "hints": {
-        "pending_decision": false,
-        "blocked_event": false,
-        "open_decisions": [],
-        "scout_report_present": false,
-        "last_event_text": ""
-      },
-      "actions": {
-        "watch": "bin/fm-peek.sh fm-scout",
-        "steer": "bin/fm-send.sh fm-scout '<instruction>'",
+        "watch": "bin/fm-peek.sh fm-scout-a1",
+        "steer": "bin/fm-send.sh fm-scout-a1 '<instruction>'",
         "return_channel_note": null
       },
       "backlog": null
@@ -357,10 +280,10 @@
       "complete": true,
       "reason": null,
       "provenance": "registered-table",
-      "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h/data/secondmates.md",
+      "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/secondmates.md",
       "freshness": {
         "status": "fresh",
-        "observed_at": "2026-11-04T04:51:44Z"
+        "observed_at": "2026-11-04T07:35:18Z"
       },
       "records": [],
       "input_truncated": false,

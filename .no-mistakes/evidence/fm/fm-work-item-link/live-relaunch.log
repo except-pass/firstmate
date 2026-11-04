@@ -1,0 +1,10 @@
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home
+error: task linked-a1's composer state is 'unknown', not proven empty; refusing to type the /quit exit command because it could concatenate onto existing text. Clear the composer, then retry 'relaunch'
+error: relaunch of linked-a1 failed while stopping the old agent, which is still running; its original instructions were restored
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home
+WARNING: watcher still down (same stale episode; last beat: 55s ago, grace 300s) - full banner already printed this episode.
+warning: /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/linked-a1/launch-brief.md records no ship branch; defaulting to legacy branch fm/linked-a1
+warning: /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/linked-a1/launch-brief.md records no delivery contract line (scaffolded before ship briefs recorded one); launching on the explicit --mode local-only - confirm its definition of done matches
+notice: linked-a1 ships mode=local-only while the standing posture for project is no-mistakes - less rigor than the captain's standing posture; proceed only on a current explicit captain instruction or an intake judgment you can state
+relaunched linked-a1 harness=codex from=codex model=default effort=default backend=tmux endpoint=fm-lab-driver:fm-linked-a1 worktree=/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project/.treehouse/project-133d96/1/project

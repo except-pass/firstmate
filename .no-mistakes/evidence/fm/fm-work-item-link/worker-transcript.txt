@@ -1,0 +1,40 @@
+  named by this brief.
+  When this task works on Firstmate itself, the repository root `AGENTS.md` (also imported by `CLAUDE.md`) is project
+  content and the supervisor contract for the firstmate managing you: follow this brief instead of that supervisor
+  contract.
+  Project instructions still govern the work wherever they do not conflict with this worker identity, including
+  `CONTRIBUTING.md` and `firstmate-coding-guidelines` for Firstmate changes.
+  If the `firstmate-coding-guidelines` skill name does not resolve in this session, read `/home/farm/.no-mistakes/
+  worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.agents/skills/firstmate-coding-guidelines/SKILL.md` instead.
+
+  # Task
+  ## Captain's intent
+  Wait for further instructions; do not modify files or run commands.
+
+  ## Firstmate spec
+  This is a disposable dispatch observation. Remain idle.
+
+  ## Progress note (2026-11-04T07:34:39Z)
+
+  This task was relaunched. Continue from here; the local copy and every
+  uncommitted change are exactly as the previous worker left them.
+
+  First, check your instruction inbox: list it with
+  `find '/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/linked-a1.inbox'
+  -maxdepth 1 -name '*.msg' 2>/dev/null | sort -V`, act on
+  each message in numeric order, then mv each handled file into
+  '/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/linked-a1.inbox/handled/'. A
+  steer sent before the relaunch survives there.
+
+  Remain idle; do not run commands or modify files.
+
+
+• Standing by for further instructions. No commands run or files modified.
+
+  Worked for 4s • 07:34
+
+
+› Ask Codex to do anything
+
+  GPT-6.1-Sol default · ~/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project/.treehouse/project-…
+  ? for shortcuts                                                                              ⚠ 1 warning · f2 to view

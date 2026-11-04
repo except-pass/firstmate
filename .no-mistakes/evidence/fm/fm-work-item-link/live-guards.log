@@ -1,0 +1,29 @@
+--work-item '': exit=1
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home
+WARNING: watcher still down (same stale episode; last beat: 30s ago, grace 300s) - full banner already printed this episode.
+error: --work-item requires a non-empty value
+
+--work-item 'card\nid=forged': exit=1
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home
+WARNING: watcher still down (same stale episode; last beat: 31s ago, grace 300s) - full banner already printed this episode.
+error: --work-item must be one line with no control characters; a control character or newline would break the task record
+
+--work-item 'card\tid': exit=1
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home
+WARNING: watcher still down (same stale episode; last beat: 32s ago, grace 300s) - full banner already printed this episode.
+error: --work-item must be one line with no control characters; a control character or newline would break the task record
+
+--work-item 'card\rid': exit=1
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home
+WARNING: watcher still down (same stale episode; last beat: 32s ago, grace 300s) - full banner already printed this episode.
+error: --work-item must be one line with no control characters; a control character or newline would break the task record
+
+--work-item 'card\x1bid': exit=1
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home
+WARNING: watcher still down (same stale episode; last beat: 33s ago, grace 300s) - full banner already printed this episode.
+error: --work-item must be one line with no control characters; a control character or newline would break the task record
+
+relaunch override: exit=1
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home
+WARNING: watcher still down (same stale episode; last beat: 33s ago, grace 300s) - full banner already printed this episode.
+error: --relaunch reuses the task's recorded work item; --work-item cannot override it

@@ -1,0 +1,233 @@
+{
+  "schema": "fm-fleet-snapshot.v1",
+  "generated": "2026-11-04T07:34:18Z",
+  "fm_home": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home",
+  "roots": {
+    "fm_root": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD",
+    "state": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state",
+    "data": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data",
+    "config": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/config",
+    "projects": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/projects"
+  },
+  "backlog": {
+    "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/backlog.md",
+    "present": false,
+    "records": []
+  },
+  "tasks": [
+    {
+      "id": "linked-a1",
+      "kind": "ship",
+      "harness": "codex",
+      "mode": "local-only",
+      "yolo": "off",
+      "branch": "fm/linked-a1",
+      "work_item": "https://notion.so/card-42?a=b&name=\"card\"",
+      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project",
+      "spawn_gen": "s1793777631.2468736.1296",
+      "backend": "tmux",
+      "remote": null,
+      "paths": {
+        "meta": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/linked-a1.meta",
+          "present": true
+        },
+        "status_log": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/linked-a1.status",
+          "present": false,
+          "kind": "event_history",
+          "last_event": {
+            "state": "",
+            "note": "",
+            "raw": "",
+            "age_seconds": null
+          }
+        },
+        "worktree": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project/.treehouse/project-133d96/1/project",
+          "present": true
+        },
+        "home": {
+          "path": null,
+          "present": false
+        },
+        "report": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/linked-a1/report.md",
+          "present": false
+        }
+      },
+      "secondmate_projects": [],
+      "current_state": {
+        "state": "unknown",
+        "source": "pane",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-04T07:34:18Z",
+        "freshness": "fresh"
+      },
+      "endpoint": {
+        "target": "fm-lab-driver:fm-linked-a1",
+        "exists": true,
+        "agent_alive": "not_checked",
+        "status": "unknown",
+        "observed_at": "2026-11-04T07:34:18Z",
+        "freshness": "fresh"
+      },
+      "pr": {
+        "url": null,
+        "source": "absent",
+        "head": null
+      },
+      "hints": {
+        "pending_decision": false,
+        "blocked_event": false,
+        "open_decisions": [],
+        "scout_report_present": false,
+        "last_event_text": ""
+      },
+      "actions": {
+        "watch": "bin/fm-peek.sh fm-linked-a1",
+        "steer": "bin/fm-send.sh fm-linked-a1 '<instruction>'",
+        "return_channel_note": null
+      },
+      "backlog": null
+    },
+    {
+      "id": "plain-a1",
+      "kind": "scout",
+      "harness": "codex",
+      "mode": "",
+      "yolo": "",
+      "branch": null,
+      "work_item": null,
+      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project",
+      "spawn_gen": "s1793777646.2484831.16253",
+      "backend": "tmux",
+      "remote": null,
+      "paths": {
+        "meta": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/plain-a1.meta",
+          "present": true
+        },
+        "status_log": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/state/plain-a1.status",
+          "present": false,
+          "kind": "event_history",
+          "last_event": {
+            "state": "",
+            "note": "",
+            "raw": "",
+            "age_seconds": null
+          }
+        },
+        "worktree": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/project/.treehouse/project-133d96/2/project",
+          "present": true
+        },
+        "home": {
+          "path": null,
+          "present": false
+        },
+        "report": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/plain-a1/report.md",
+          "present": false
+        }
+      },
+      "secondmate_projects": [],
+      "current_state": {
+        "state": "unknown",
+        "source": "pane",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-04T07:34:18Z",
+        "freshness": "fresh"
+      },
+      "endpoint": {
+        "target": "fm-lab-driver:fm-plain-a1",
+        "exists": true,
+        "agent_alive": "not_checked",
+        "status": "unknown",
+        "observed_at": "2026-11-04T07:34:18Z",
+        "freshness": "fresh"
+      },
+      "pr": {
+        "url": null,
+        "source": "absent",
+        "head": null
+      },
+      "hints": {
+        "pending_decision": false,
+        "blocked_event": false,
+        "open_decisions": [],
+        "scout_report_present": false,
+        "last_event_text": ""
+      },
+      "actions": {
+        "watch": "bin/fm-peek.sh fm-plain-a1",
+        "steer": "bin/fm-send.sh fm-plain-a1 '<instruction>'",
+        "return_channel_note": null
+      },
+      "backlog": null
+    }
+  ],
+  "main_inventory": {
+    "valid": true,
+    "reason": null,
+    "orphan_in_flight": [],
+    "unstructured_current_count": 0
+  },
+  "contributions": {
+    "known": 0,
+    "checked": 0,
+    "counts": {
+      "captain": 0,
+      "fleet": 0,
+      "maintainer": 0,
+      "nobody": 0
+    },
+    "unmeasured": 0,
+    "complete": false,
+    "proven_clear": false,
+    "stale_verdicts": 0,
+    "missing_verdicts": 0,
+    "unreadable_records": 1,
+    "valid_until": 900,
+    "captain": [],
+    "captain_omitted": 0
+  },
+  "scout_reports": [],
+  "secondmate_current": {
+    "registry": {
+      "present": false,
+      "available": true,
+      "complete": true,
+      "reason": null,
+      "provenance": "registered-table",
+      "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JQHAH1ZYTRMGTQV3KD01PD/.l/home/data/secondmates.md",
+      "freshness": {
+        "status": "fresh",
+        "observed_at": "2026-11-04T07:34:18Z"
+      },
+      "records": [],
+      "input_truncated": false,
+      "records_truncated": false,
+      "reasons": [],
+      "lines_in_window": 0,
+      "records_in_window": 0
+    },
+    "records": [],
+    "total_registered": 0,
+    "total": 0,
+    "shown": 0,
+    "truncated": 0
+  },
+  "secondmate_landed": {
+    "records": [],
+    "truncated": [],
+    "unreadable": [],
+    "partial": []
+  },
+  "secondmate_guidance": {
+    "note": "For kind=secondmate, bearings selects validated structured state from that registered home; parent events and bounded terminal evidence are fallback-only supplements and never current-state authority."
+  }
+}
