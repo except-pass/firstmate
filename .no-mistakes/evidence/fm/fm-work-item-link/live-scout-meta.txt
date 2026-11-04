@@ -1,0 +1,12 @@
+window=fm-lab-work-item:fm-live-scout
+endpoint_task_id=live-scout
+worktree=/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9/.live-work-item/.treehouse/project-e2fcf2/2/project
+project=/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9/.live-work-item/project
+harness=codex
+approval_mode=bypass
+kind=scout
+tasktmp=/tmp/fm-live-scout
+work_item=card-scout-42
+model=default
+effort=default
+spawn_gen=s1793792474.1098781.18108

@@ -1,0 +1,458 @@
+{
+  "schema": "fm-fleet-snapshot.v1",
+  "generated": "2026-11-04T11:41:26Z",
+  "fm_home": "/tmp/fm-lab.BWu0FL/home",
+  "roots": {
+    "fm_root": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9",
+    "state": "/tmp/fm-lab.BWu0FL/home/state",
+    "data": "/tmp/fm-lab.BWu0FL/home/data",
+    "config": "/tmp/fm-lab.BWu0FL/home/config",
+    "projects": "/tmp/fm-lab.BWu0FL/home/projects"
+  },
+  "backlog": {
+    "path": "/tmp/fm-lab.BWu0FL/home/data/backlog.md",
+    "present": false,
+    "records": []
+  },
+  "tasks": [
+    {
+      "id": "live-plain",
+      "kind": "ship",
+      "harness": "codex",
+      "mode": "local-only",
+      "yolo": "off",
+      "branch": "fm/live-plain",
+      "work_item": null,
+      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9/.live-work-item/project",
+      "spawn_gen": "s1793792478.1106889.2345",
+      "backend": "tmux",
+      "remote": null,
+      "paths": {
+        "meta": {
+          "path": "/tmp/fm-lab.BWu0FL/home/state/live-plain.meta",
+          "present": true
+        },
+        "status_log": {
+          "path": "/tmp/fm-lab.BWu0FL/home/state/live-plain.status",
+          "present": false,
+          "kind": "event_history",
+          "last_event": {
+            "state": "",
+            "note": "",
+            "raw": "",
+            "age_seconds": null
+          }
+        },
+        "worktree": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9/.live-work-item/.treehouse/project-e2fcf2/3/project",
+          "present": true
+        },
+        "home": {
+          "path": null,
+          "present": false
+        },
+        "report": {
+          "path": "/tmp/fm-lab.BWu0FL/home/data/live-plain/report.md",
+          "present": false
+        }
+      },
+      "secondmate_projects": [],
+      "current_state": {
+        "state": "unknown",
+        "source": "pane",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-04T11:41:26Z",
+        "freshness": "fresh"
+      },
+      "endpoint": {
+        "target": "fm-lab-work-item:fm-live-plain",
+        "exists": true,
+        "agent_alive": "not_checked",
+        "status": "unknown",
+        "observed_at": "2026-11-04T11:41:26Z",
+        "freshness": "fresh"
+      },
+      "pr": {
+        "url": null,
+        "source": "absent",
+        "head": null
+      },
+      "hints": {
+        "pending_decision": false,
+        "blocked_event": false,
+        "open_decisions": [],
+        "scout_report_present": false,
+        "last_event_text": ""
+      },
+      "actions": {
+        "watch": "bin/fm-peek.sh fm-live-plain",
+        "steer": "bin/fm-send.sh fm-live-plain '<instruction>'",
+        "return_channel_note": null
+      },
+      "backlog": null
+    },
+    {
+      "id": "live-scout",
+      "kind": "scout",
+      "harness": "codex",
+      "mode": "",
+      "yolo": "",
+      "branch": null,
+      "work_item": "card-scout-42",
+      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9/.live-work-item/project",
+      "spawn_gen": "s1793792474.1098781.18108",
+      "backend": "tmux",
+      "remote": null,
+      "paths": {
+        "meta": {
+          "path": "/tmp/fm-lab.BWu0FL/home/state/live-scout.meta",
+          "present": true
+        },
+        "status_log": {
+          "path": "/tmp/fm-lab.BWu0FL/home/state/live-scout.status",
+          "present": false,
+          "kind": "event_history",
+          "last_event": {
+            "state": "",
+            "note": "",
+            "raw": "",
+            "age_seconds": null
+          }
+        },
+        "worktree": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9/.live-work-item/.treehouse/project-e2fcf2/2/project",
+          "present": true
+        },
+        "home": {
+          "path": null,
+          "present": false
+        },
+        "report": {
+          "path": "/tmp/fm-lab.BWu0FL/home/data/live-scout/report.md",
+          "present": false
+        }
+      },
+      "secondmate_projects": [],
+      "current_state": {
+        "state": "unknown",
+        "source": "pane",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-04T11:41:26Z",
+        "freshness": "fresh"
+      },
+      "endpoint": {
+        "target": "fm-lab-work-item:fm-live-scout",
+        "exists": true,
+        "agent_alive": "not_checked",
+        "status": "unknown",
+        "observed_at": "2026-11-04T11:41:26Z",
+        "freshness": "fresh"
+      },
+      "pr": {
+        "url": null,
+        "source": "absent",
+        "head": null
+      },
+      "hints": {
+        "pending_decision": false,
+        "blocked_event": false,
+        "open_decisions": [],
+        "scout_report_present": false,
+        "last_event_text": ""
+      },
+      "actions": {
+        "watch": "bin/fm-peek.sh fm-live-scout",
+        "steer": "bin/fm-send.sh fm-live-scout '<instruction>'",
+        "return_channel_note": null
+      },
+      "backlog": null
+    },
+    {
+      "id": "live-ship",
+      "kind": "ship",
+      "harness": "codex",
+      "mode": "local-only",
+      "yolo": "off",
+      "branch": "fm/live-ship",
+      "work_item": "https://example.com/card?a=42&title=\"雪\"",
+      "project": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9/.live-work-item/project",
+      "spawn_gen": "s1793792482.1112012.29769",
+      "backend": "tmux",
+      "remote": null,
+      "paths": {
+        "meta": {
+          "path": "/tmp/fm-lab.BWu0FL/home/state/live-ship.meta",
+          "present": true
+        },
+        "status_log": {
+          "path": "/tmp/fm-lab.BWu0FL/home/state/live-ship.status",
+          "present": false,
+          "kind": "event_history",
+          "last_event": {
+            "state": "",
+            "note": "",
+            "raw": "",
+            "age_seconds": null
+          }
+        },
+        "worktree": {
+          "path": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9/.live-work-item/.treehouse/project-e2fcf2/1/project",
+          "present": true
+        },
+        "home": {
+          "path": null,
+          "present": false
+        },
+        "report": {
+          "path": "/tmp/fm-lab.BWu0FL/home/data/live-ship/report.md",
+          "present": false
+        }
+      },
+      "secondmate_projects": [],
+      "current_state": {
+        "state": "unknown",
+        "source": "pane",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-04T11:41:26Z",
+        "freshness": "fresh"
+      },
+      "endpoint": {
+        "target": "fm-lab-work-item:fm-live-ship",
+        "exists": true,
+        "agent_alive": "not_checked",
+        "status": "unknown",
+        "observed_at": "2026-11-04T11:41:26Z",
+        "freshness": "fresh"
+      },
+      "pr": {
+        "url": null,
+        "source": "absent",
+        "head": null
+      },
+      "hints": {
+        "pending_decision": false,
+        "blocked_event": false,
+        "open_decisions": [],
+        "scout_report_present": false,
+        "last_event_text": ""
+      },
+      "actions": {
+        "watch": "bin/fm-peek.sh fm-live-ship",
+        "steer": "bin/fm-send.sh fm-live-ship '<instruction>'",
+        "return_channel_note": null
+      },
+      "backlog": null
+    },
+    {
+      "id": "live-sm",
+      "kind": "secondmate",
+      "harness": "codex",
+      "mode": "secondmate",
+      "yolo": "off",
+      "branch": null,
+      "work_item": "sm-card-42",
+      "project": "/tmp/fm-lab.BWu0FL/secondmate-home",
+      "spawn_gen": "s1793792484.1113645.2139",
+      "backend": "tmux",
+      "remote": null,
+      "paths": {
+        "meta": {
+          "path": "/tmp/fm-lab.BWu0FL/home/state/live-sm.meta",
+          "present": true
+        },
+        "status_log": {
+          "path": "/tmp/fm-lab.BWu0FL/home/state/live-sm.status",
+          "present": false,
+          "kind": "event_history",
+          "last_event": {
+            "state": "",
+            "note": "",
+            "raw": "",
+            "age_seconds": null
+          }
+        },
+        "worktree": {
+          "path": "/tmp/fm-lab.BWu0FL/secondmate-home",
+          "present": true
+        },
+        "home": {
+          "path": "/tmp/fm-lab.BWu0FL/secondmate-home",
+          "present": true
+        },
+        "report": {
+          "path": "/tmp/fm-lab.BWu0FL/home/data/live-sm/report.md",
+          "present": false
+        }
+      },
+      "secondmate_projects": [],
+      "current_state": {
+        "state": "unknown",
+        "source": "none",
+        "detail": "no current-state source available",
+        "raw": "state: unknown · source: none · no current-state source available",
+        "observed_at": "2026-11-04T11:41:26Z",
+        "freshness": "fresh"
+      },
+      "endpoint": {
+        "target": "fm-lab-work-item:fm-live-sm",
+        "exists": true,
+        "agent_alive": "alive",
+        "status": "alive",
+        "observed_at": "2026-11-04T11:41:26Z",
+        "freshness": "fresh"
+      },
+      "pr": {
+        "url": null,
+        "source": "absent",
+        "head": null
+      },
+      "hints": {
+        "pending_decision": false,
+        "blocked_event": false,
+        "open_decisions": [],
+        "scout_report_present": false,
+        "last_event_text": ""
+      },
+      "actions": {
+        "send": "bin/fm-send.sh fm-live-sm '<request>'",
+        "watch": "read status/doc return channel; do not routinely fm-peek a secondmate for answers",
+        "return_channel_note": "Secondmate answers come back through status/doc paths after a marked fm-send request."
+      },
+      "backlog": null
+    }
+  ],
+  "main_inventory": {
+    "valid": true,
+    "reason": null,
+    "orphan_in_flight": [],
+    "unstructured_current_count": 0
+  },
+  "contributions": {
+    "known": 0,
+    "checked": 0,
+    "counts": {
+      "captain": 0,
+      "fleet": 0,
+      "maintainer": 0,
+      "nobody": 0
+    },
+    "unmeasured": 0,
+    "complete": false,
+    "proven_clear": false,
+    "stale_verdicts": 0,
+    "missing_verdicts": 0,
+    "unreadable_records": 1,
+    "valid_until": 900,
+    "captain": [],
+    "captain_omitted": 0
+  },
+  "scout_reports": [],
+  "secondmate_current": {
+    "registry": {
+      "present": false,
+      "available": true,
+      "complete": true,
+      "reason": null,
+      "provenance": "registered-table",
+      "path": "/tmp/fm-lab.BWu0FL/home/data/secondmates.md",
+      "freshness": {
+        "status": "fresh",
+        "observed_at": "2026-11-04T11:41:26Z"
+      },
+      "records": [],
+      "input_truncated": false,
+      "records_truncated": false,
+      "reasons": [],
+      "lines_in_window": 0,
+      "records_in_window": 0
+    },
+    "records": [
+      {
+        "id": "live-sm",
+        "home": "/tmp/fm-lab.BWu0FL/secondmate-home",
+        "host": null,
+        "remote": false,
+        "registered": false,
+        "spawn_gen": "s1793792484.1113645.2139",
+        "current": {
+          "state": "unknown",
+          "reason": "secondmate metadata is not registered"
+        },
+        "invalidity": null,
+        "reconcile_inventory": null,
+        "provenance": {
+          "selected": "unknown",
+          "structured_home": "/tmp/fm-lab.BWu0FL/secondmate-home",
+          "parent_event_role": "fallback-only-not-current"
+        },
+        "freshness": {
+          "status": "unknown",
+          "observed_at": "2026-11-04T11:41:26Z",
+          "age_seconds": null
+        },
+        "active_children": [],
+        "decisions_open": [],
+        "holds": [],
+        "queued": [],
+        "landed": [],
+        "endpoints": [],
+        "counts": {
+          "active_children": 0,
+          "decisions_open": 0,
+          "holds": 0,
+          "queued": 0,
+          "landed": 0,
+          "endpoints": 0
+        },
+        "omitted": [],
+        "parent_event": {
+          "raw": "",
+          "note": "",
+          "age_seconds": null,
+          "open_activities": [],
+          "open_decisions": [],
+          "activity_scan": {
+            "records": [],
+            "available": true,
+            "input_truncated": false,
+            "retained_truncated": false,
+            "reasons": [],
+            "lines_in_window": 0,
+            "records_in_window": 0
+          }
+        },
+        "terminal_evidence": {
+          "provenance": "parent-direct-report-terminal",
+          "trust": "untrusted-supplement",
+          "captured": false,
+          "observed_at": "2026-11-04T11:41:26Z",
+          "freshness": "not-collected",
+          "reason": "no parent event to compare",
+          "lines": 0,
+          "bytes": 0,
+          "event_note_seen": false,
+          "contradiction": false
+        },
+        "contradiction": false
+      }
+    ],
+    "total_registered": 0,
+    "total": 1,
+    "shown": 1,
+    "truncated": 0
+  },
+  "secondmate_landed": {
+    "records": [],
+    "truncated": [],
+    "unreadable": [
+      "/tmp/fm-lab.BWu0FL/secondmate-home"
+    ],
+    "partial": []
+  },
+  "secondmate_guidance": {
+    "note": "For kind=secondmate, bearings selects validated structured state from that registered home; parent events and bounded terminal evidence are fallback-only supplements and never current-state authority."
+  }
+}

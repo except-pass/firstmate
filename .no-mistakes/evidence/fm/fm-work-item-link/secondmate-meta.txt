@@ -1,0 +1,16 @@
+window=fm-lab-work-item:fm-live-sm
+endpoint_task_id=live-sm
+worktree=/tmp/fm-lab.BWu0FL/secondmate-home
+project=/tmp/fm-lab.BWu0FL/secondmate-home
+harness=codex
+approval_mode=bypass
+kind=secondmate
+mode=secondmate
+yolo=off
+tasktmp=/tmp/fm-live-sm
+work_item=sm-card-42
+model=default
+effort=default
+spawn_gen=s1793792484.1113645.2139
+home=/tmp/fm-lab.BWu0FL/secondmate-home
+projects=

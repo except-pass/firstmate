@@ -1,0 +1,15 @@
+window=fm-lab-work-item:fm-live-ship
+endpoint_task_id=live-ship
+worktree=/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9/.live-work-item/.treehouse/project-e2fcf2/1/project
+project=/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9/.live-work-item/project
+harness=codex
+approval_mode=bypass
+kind=ship
+mode=local-only
+yolo=off
+branch=fm/live-ship
+tasktmp=/tmp/fm-live-ship
+work_item=https://example.com/card?a=42&title="雪"
+model=default
+effort=default
+spawn_gen=s1793792469.1083198.18455

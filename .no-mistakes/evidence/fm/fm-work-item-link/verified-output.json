@@ -1,0 +1,9 @@
+{
+  "snapshot_work_items": {
+    "live-ship": "https://example.com/card?a=42&title=\"雪\"",
+    "live-scout": "card-scout-42",
+    "live-plain": null,
+    "live-sm": "sm-card-42"
+  },
+  "relaunch_work_item": "work_item=https://example.com/card?a=42&title=\"雪\""
+}
