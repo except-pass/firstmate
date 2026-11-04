@@ -1,0 +1,5 @@
+bash: bash /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R
+fm-linked: sleep /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project/.treehouse/project-8fb93a/1/project
+fm-plain: sleep /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project/.treehouse/project-8fb93a/2/project
+fm-scout: sleep /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project/.treehouse/project-8fb93a/3/project
+fm-restart: sleep /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project/.treehouse/project-8fb93a/4/project

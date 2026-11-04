@@ -1,0 +1,17 @@
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h
+spawned restart harness=sleep kind=scout window=primary:fm-restart worktree=/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project/.treehouse/project-8fb93a/4/project
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h
+spawned restart harness=sleep kind=scout window=primary:fm-restart worktree=/home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/project/.treehouse/project-8fb93a/4/project
+relaunch_rc=0
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h
+error: --work-item requires a non-empty value
+refusal_rc=1 record_exists=no
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h
+error: --work-item must be one line with no control characters; a control character or newline would break the task record
+refusal_rc=1 record_exists=no
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h
+error: --work-item must be one line with no control characters; a control character or newline would break the task record
+refusal_rc=1 record_exists=no
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.w/h
+error: --relaunch reuses the task's recorded work item; --work-item cannot override it
+override_rc=1

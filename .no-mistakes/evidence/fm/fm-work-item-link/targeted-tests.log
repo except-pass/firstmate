@@ -1,0 +1,6 @@
+ok - spawn help documents --work-item
+ok - a work item with a control character, newline, or empty value is refused before any record
+ok - relaunch refuses --work-item instead of replacing the recorded link
+ok - ship and scout spawns record an optional work item and the snapshot publishes it
+not ok - a secondmate spawn with --work-item should launch
+error: secondmate home cannot be inside the firstmate repo: /home/farm/.no-mistakes/worktrees/7e988987c698/01M6JE78JJ8TVXPE4V8BVAPV6R/.work-item-lab/fm-work-item.JtpJj0/secondmate/secondmate-home: expected exit 0, got 1
