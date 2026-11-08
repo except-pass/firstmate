@@ -1,0 +1,458 @@
+{
+  "schema": "fm-fleet-snapshot.v1",
+  "generated": "2026-11-08T03:37:32Z",
+  "fm_home": "/tmp/fm-lab.26ARpG",
+  "roots": {
+    "fm_root": "/home/farm/.no-mistakes/worktrees/7e988987c698/01M6K5KES5A58R7V98DKQ40SW9",
+    "state": "/tmp/fm-lab.26ARpG/state",
+    "data": "/tmp/fm-lab.26ARpG/data",
+    "config": "/tmp/fm-lab.26ARpG/config",
+    "projects": "/tmp/fm-lab.26ARpG/projects"
+  },
+  "backlog": {
+    "path": "/tmp/fm-lab.26ARpG/data/backlog.md",
+    "present": false,
+    "records": []
+  },
+  "tasks": [
+    {
+      "id": "link-mate",
+      "kind": "secondmate",
+      "harness": "codex",
+      "mode": "secondmate",
+      "yolo": "off",
+      "branch": null,
+      "work_item": "card:mate-42",
+      "project": "/tmp/fm-lab.kZeSlY",
+      "spawn_gen": "s1794109040.1640055.29373",
+      "backend": "tmux",
+      "remote": null,
+      "paths": {
+        "meta": {
+          "path": "/tmp/fm-lab.26ARpG/state/link-mate.meta",
+          "present": true
+        },
+        "status_log": {
+          "path": "/tmp/fm-lab.26ARpG/state/link-mate.status",
+          "present": false,
+          "kind": "event_history",
+          "last_event": {
+            "state": "",
+            "note": "",
+            "raw": "",
+            "age_seconds": null
+          }
+        },
+        "worktree": {
+          "path": "/tmp/fm-lab.kZeSlY",
+          "present": true
+        },
+        "home": {
+          "path": "/tmp/fm-lab.kZeSlY",
+          "present": true
+        },
+        "report": {
+          "path": "/tmp/fm-lab.26ARpG/data/link-mate/report.md",
+          "present": false
+        }
+      },
+      "secondmate_projects": [],
+      "current_state": {
+        "state": "unknown",
+        "source": "none",
+        "detail": "no current-state source available",
+        "raw": "state: unknown · source: none · no current-state source available",
+        "observed_at": "2026-11-08T03:37:32Z",
+        "freshness": "fresh"
+      },
+      "endpoint": {
+        "target": "primary:fm-link-mate",
+        "exists": true,
+        "agent_alive": "alive",
+        "status": "alive",
+        "observed_at": "2026-11-08T03:37:32Z",
+        "freshness": "fresh"
+      },
+      "pr": {
+        "url": null,
+        "source": "absent",
+        "head": null
+      },
+      "hints": {
+        "pending_decision": false,
+        "blocked_event": false,
+        "open_decisions": [],
+        "scout_report_present": false,
+        "last_event_text": ""
+      },
+      "actions": {
+        "send": "bin/fm-send.sh fm-link-mate '<request>'",
+        "watch": "read status/doc return channel; do not routinely fm-peek a secondmate for answers",
+        "return_channel_note": "Secondmate answers come back through status/doc paths after a marked fm-send request."
+      },
+      "backlog": null
+    },
+    {
+      "id": "link-plain",
+      "kind": "ship",
+      "harness": "codex",
+      "mode": "local-only",
+      "yolo": "off",
+      "branch": "fm/link-plain",
+      "work_item": null,
+      "project": "/tmp/fm-lab.26ARpG/project",
+      "spawn_gen": "s1794109004.1620036.21190",
+      "backend": "tmux",
+      "remote": null,
+      "paths": {
+        "meta": {
+          "path": "/tmp/fm-lab.26ARpG/state/link-plain.meta",
+          "present": true
+        },
+        "status_log": {
+          "path": "/tmp/fm-lab.26ARpG/state/link-plain.status",
+          "present": false,
+          "kind": "event_history",
+          "last_event": {
+            "state": "",
+            "note": "",
+            "raw": "",
+            "age_seconds": null
+          }
+        },
+        "worktree": {
+          "path": "/tmp/fm-lab.26ARpG/.treehouse/project-0b8f86/3/project",
+          "present": true
+        },
+        "home": {
+          "path": null,
+          "present": false
+        },
+        "report": {
+          "path": "/tmp/fm-lab.26ARpG/data/link-plain/report.md",
+          "present": false
+        }
+      },
+      "secondmate_projects": [],
+      "current_state": {
+        "state": "unknown",
+        "source": "pane",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-08T03:37:32Z",
+        "freshness": "fresh"
+      },
+      "endpoint": {
+        "target": "primary:fm-link-plain",
+        "exists": true,
+        "agent_alive": "not_checked",
+        "status": "unknown",
+        "observed_at": "2026-11-08T03:37:32Z",
+        "freshness": "fresh"
+      },
+      "pr": {
+        "url": null,
+        "source": "absent",
+        "head": null
+      },
+      "hints": {
+        "pending_decision": false,
+        "blocked_event": false,
+        "open_decisions": [],
+        "scout_report_present": false,
+        "last_event_text": ""
+      },
+      "actions": {
+        "watch": "bin/fm-peek.sh fm-link-plain",
+        "steer": "bin/fm-send.sh fm-link-plain '<instruction>'",
+        "return_channel_note": null
+      },
+      "backlog": null
+    },
+    {
+      "id": "link-scout",
+      "kind": "scout",
+      "harness": "codex",
+      "mode": "",
+      "yolo": "",
+      "branch": null,
+      "work_item": "card:scout-42",
+      "project": "/tmp/fm-lab.26ARpG/project",
+      "spawn_gen": "s1794108999.1618226.17021",
+      "backend": "tmux",
+      "remote": null,
+      "paths": {
+        "meta": {
+          "path": "/tmp/fm-lab.26ARpG/state/link-scout.meta",
+          "present": true
+        },
+        "status_log": {
+          "path": "/tmp/fm-lab.26ARpG/state/link-scout.status",
+          "present": false,
+          "kind": "event_history",
+          "last_event": {
+            "state": "",
+            "note": "",
+            "raw": "",
+            "age_seconds": null
+          }
+        },
+        "worktree": {
+          "path": "/tmp/fm-lab.26ARpG/.treehouse/project-0b8f86/2/project",
+          "present": true
+        },
+        "home": {
+          "path": null,
+          "present": false
+        },
+        "report": {
+          "path": "/tmp/fm-lab.26ARpG/data/link-scout/report.md",
+          "present": false
+        }
+      },
+      "secondmate_projects": [],
+      "current_state": {
+        "state": "unknown",
+        "source": "pane",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-08T03:37:32Z",
+        "freshness": "fresh"
+      },
+      "endpoint": {
+        "target": "primary:fm-link-scout",
+        "exists": true,
+        "agent_alive": "not_checked",
+        "status": "unknown",
+        "observed_at": "2026-11-08T03:37:32Z",
+        "freshness": "fresh"
+      },
+      "pr": {
+        "url": null,
+        "source": "absent",
+        "head": null
+      },
+      "hints": {
+        "pending_decision": false,
+        "blocked_event": false,
+        "open_decisions": [],
+        "scout_report_present": false,
+        "last_event_text": ""
+      },
+      "actions": {
+        "watch": "bin/fm-peek.sh fm-link-scout",
+        "steer": "bin/fm-send.sh fm-link-scout '<instruction>'",
+        "return_channel_note": null
+      },
+      "backlog": null
+    },
+    {
+      "id": "link-ship",
+      "kind": "ship",
+      "harness": "codex",
+      "mode": "local-only",
+      "yolo": "off",
+      "branch": "fm/link-ship",
+      "work_item": "https://example.invalid/cards/42?a=b",
+      "project": "/tmp/fm-lab.26ARpG/project",
+      "spawn_gen": "s1794109023.1628324.25771",
+      "backend": "tmux",
+      "remote": null,
+      "paths": {
+        "meta": {
+          "path": "/tmp/fm-lab.26ARpG/state/link-ship.meta",
+          "present": true
+        },
+        "status_log": {
+          "path": "/tmp/fm-lab.26ARpG/state/link-ship.status",
+          "present": false,
+          "kind": "event_history",
+          "last_event": {
+            "state": "",
+            "note": "",
+            "raw": "",
+            "age_seconds": null
+          }
+        },
+        "worktree": {
+          "path": "/tmp/fm-lab.26ARpG/.treehouse/project-0b8f86/1/project",
+          "present": true
+        },
+        "home": {
+          "path": null,
+          "present": false
+        },
+        "report": {
+          "path": "/tmp/fm-lab.26ARpG/data/link-ship/report.md",
+          "present": false
+        }
+      },
+      "secondmate_projects": [],
+      "current_state": {
+        "state": "unknown",
+        "source": "pane",
+        "detail": "harness state unavailable (unknown codex-unverified)",
+        "raw": "state: unknown · source: pane · harness state unavailable (unknown codex-unverified)",
+        "observed_at": "2026-11-08T03:37:32Z",
+        "freshness": "fresh"
+      },
+      "endpoint": {
+        "target": "primary:fm-link-ship",
+        "exists": true,
+        "agent_alive": "not_checked",
+        "status": "unknown",
+        "observed_at": "2026-11-08T03:37:32Z",
+        "freshness": "fresh"
+      },
+      "pr": {
+        "url": null,
+        "source": "absent",
+        "head": null
+      },
+      "hints": {
+        "pending_decision": false,
+        "blocked_event": false,
+        "open_decisions": [],
+        "scout_report_present": false,
+        "last_event_text": ""
+      },
+      "actions": {
+        "watch": "bin/fm-peek.sh fm-link-ship",
+        "steer": "bin/fm-send.sh fm-link-ship '<instruction>'",
+        "return_channel_note": null
+      },
+      "backlog": null
+    }
+  ],
+  "main_inventory": {
+    "valid": true,
+    "reason": null,
+    "orphan_in_flight": [],
+    "unstructured_current_count": 0
+  },
+  "contributions": {
+    "known": 0,
+    "checked": 0,
+    "counts": {
+      "captain": 0,
+      "fleet": 0,
+      "maintainer": 0,
+      "nobody": 0
+    },
+    "unmeasured": 0,
+    "complete": false,
+    "proven_clear": false,
+    "stale_verdicts": 0,
+    "missing_verdicts": 0,
+    "unreadable_records": 1,
+    "valid_until": 900,
+    "captain": [],
+    "captain_omitted": 0
+  },
+  "scout_reports": [],
+  "secondmate_current": {
+    "registry": {
+      "present": false,
+      "available": true,
+      "complete": true,
+      "reason": null,
+      "provenance": "registered-table",
+      "path": "/tmp/fm-lab.26ARpG/data/secondmates.md",
+      "freshness": {
+        "status": "fresh",
+        "observed_at": "2026-11-08T03:37:32Z"
+      },
+      "records": [],
+      "input_truncated": false,
+      "records_truncated": false,
+      "reasons": [],
+      "lines_in_window": 0,
+      "records_in_window": 0
+    },
+    "records": [
+      {
+        "id": "link-mate",
+        "home": "/tmp/fm-lab.kZeSlY",
+        "host": null,
+        "remote": false,
+        "registered": false,
+        "spawn_gen": "s1794109040.1640055.29373",
+        "current": {
+          "state": "unknown",
+          "reason": "secondmate metadata is not registered"
+        },
+        "invalidity": null,
+        "reconcile_inventory": null,
+        "provenance": {
+          "selected": "unknown",
+          "structured_home": "/tmp/fm-lab.kZeSlY",
+          "parent_event_role": "fallback-only-not-current"
+        },
+        "freshness": {
+          "status": "unknown",
+          "observed_at": "2026-11-08T03:37:32Z",
+          "age_seconds": null
+        },
+        "active_children": [],
+        "decisions_open": [],
+        "holds": [],
+        "queued": [],
+        "landed": [],
+        "endpoints": [],
+        "counts": {
+          "active_children": 0,
+          "decisions_open": 0,
+          "holds": 0,
+          "queued": 0,
+          "landed": 0,
+          "endpoints": 0
+        },
+        "omitted": [],
+        "parent_event": {
+          "raw": "",
+          "note": "",
+          "age_seconds": null,
+          "open_activities": [],
+          "open_decisions": [],
+          "activity_scan": {
+            "records": [],
+            "available": true,
+            "input_truncated": false,
+            "retained_truncated": false,
+            "reasons": [],
+            "lines_in_window": 0,
+            "records_in_window": 0
+          }
+        },
+        "terminal_evidence": {
+          "provenance": "parent-direct-report-terminal",
+          "trust": "untrusted-supplement",
+          "captured": false,
+          "observed_at": "2026-11-08T03:37:32Z",
+          "freshness": "not-collected",
+          "reason": "no parent event to compare",
+          "lines": 0,
+          "bytes": 0,
+          "event_note_seen": false,
+          "contradiction": false
+        },
+        "contradiction": false
+      }
+    ],
+    "total_registered": 0,
+    "total": 1,
+    "shown": 1,
+    "truncated": 0
+  },
+  "secondmate_landed": {
+    "records": [],
+    "truncated": [],
+    "unreadable": [
+      "/tmp/fm-lab.kZeSlY"
+    ],
+    "partial": []
+  },
+  "secondmate_guidance": {
+    "note": "For kind=secondmate, bearings selects validated structured state from that registered home; parent events and bounded terminal evidence are fallback-only supplements and never current-state authority."
+  }
+}

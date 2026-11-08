@@ -1,0 +1,7 @@
+ok - spawn help documents --work-item
+ok - a work item with a control character, newline, or empty value is refused before any record
+ok - relaunch refuses --work-item instead of replacing the recorded link
+ok - ship and scout spawns record an optional work item and the snapshot publishes it
+ok - a secondmate spawn records --work-item the same way
+ok - relaunch republishes the recorded work item and does not duplicate it
+ok - the fleet snapshot publishes work_item and null when the record has none

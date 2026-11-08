@@ -1,0 +1,5 @@
+primary:bash 120x40 bash
+primary:fm-link-ship 120x40 codex
+primary:fm-link-scout 120x40 codex
+primary:fm-link-plain 120x40 codex
+primary:fm-link-mate 120x40 codex
